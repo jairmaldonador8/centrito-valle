@@ -180,16 +180,21 @@ section{padding:80px 0;border-top:1px solid var(--border);}
 #before-after{background:var(--cr);}
 #before-after .section-header h2{color:var(--b);}
 #before-after .section-header p{color:var(--st);}
-.slider-track{position:relative;height:280px;border-radius:14px;overflow:hidden;cursor:col-resize;user-select:none;border:1px solid rgba(140,131,117,.2);}
-.ba-panel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
-.ba-handle-line{position:absolute;top:0;bottom:0;width:2px;background:var(--g);z-index:3;pointer-events:none;}
-.ba-handle{position:absolute;top:50%;z-index:4;width:38px;height:38px;border-radius:50%;background:var(--g);border:2px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--b);transform:translate(-50%,-50%);cursor:col-resize;}
-.ba-highlights{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:20px;}
-.ba-card{padding:16px;border-radius:12px;border:1px solid rgba(140,131,117,.2);background:rgba(255,255,255,.6);transition:all .25s;}
-.ba-card:hover{border-color:rgba(201,168,76,.4);background:white;}
-.ba-icon{font-size:20px;margin-bottom:8px;}
-.ba-card h4{font-size:13px;font-weight:500;color:var(--b);margin-bottom:3px;}
-.ba-card p{font-size:10px;color:var(--st);}
+.before-after-container{display:flex;flex-direction:column;gap:24px;}
+.before-after-slider{position:relative;height:400px;border-radius:14px;overflow:hidden;cursor:col-resize;user-select:none;border:1px solid rgba(140,131,117,.2);}
+.before-after-image{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;}
+.before-after-image img{width:100%;height:100%;object-fit:cover;display:block;}
+.before-after-image.before{clip-path:inset(0 50% 0 0);}
+.before-after-image.after{clip-path:inset(0 0 0 50%);}
+.before-label, .after-label{position:absolute;bottom:16px;padding:8px 12px;border-radius:6px;font-size:12px;font-weight:600;z-index:10;}
+.before-label{left:16px;background:rgba(0,0,0,.7);color:var(--st);}
+.after-label{right:16px;background:rgba(201,168,76,.9);color:var(--b);}
+.before-after-slider-handle{position:absolute;top:0;bottom:0;width:2px;left:50%;background:var(--g);z-index:5;cursor:col-resize;pointer-events:none;}
+.before-after-slider-handle::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:40px;height:40px;background:var(--g);border:2px solid var(--b);border-radius:50%;z-index:10;}
+.before-after-highlights{margin-top:24px;padding:20px;background:rgba(28,28,28,.5);border-radius:8px;border-left:4px solid var(--g);}
+.before-after-highlights h3{font-family:'Fraunces',serif;font-size:1.3rem;color:var(--w);margin-bottom:12px;}
+.before-after-highlights ul{list-style:none;padding:0;}
+.before-after-highlights li{font-size:13px;color:var(--st);margin-bottom:8px;line-height:1.6;}
 
 /* ── RUTA DEL CAFÉ ── */
 #cafe-route{background:var(--b);}
@@ -535,24 +540,27 @@ footer{background:var(--ink);border-top:1px solid var(--border);padding:60px 0 2
       <h2>El Centrito de antes<br><em style="color:var(--g);">y el de ahora</em></h2>
       <p>700 millones de pesos de inversión. Arrastra para comparar el barrio antes y después de la renovación.</p>
     </div>
-    <div class="slider-track" id="sliderTrack">
-      <div class="ba-panel" id="baBefore" style="background:linear-gradient(135deg,#1a1a1a,#2e2e2e);">
-        <div style="text-align:center;"><p class="fr" style="font-size:3.5rem;color:rgba(140,131,117,.2);">Antes</p><p style="font-size:11px;color:rgba(140,131,117,.3);">Infraestructura años 60s</p></div>
-        <span style="position:absolute;bottom:12px;left:12px;background:rgba(0,0,0,.6);padding:5px 10px;border-radius:4px;font-size:9px;font-weight:600;color:var(--st);">Antes · 2022</span>
+    <div class="before-after-container">
+      <div class="before-after-slider">
+        <div class="before-after-image before">
+          <img src="https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&h=400&fit=crop" alt="Centrito Valle antes de revitalización - 2022">
+          <span class="before-label">2022 - Antes</span>
+        </div>
+        <div class="before-after-image after">
+          <img src="https://images.unsplash.com/photo-1517457373614-b7152f800bb1?w=600&h=400&fit=crop" alt="Centrito Valle después de revitalización - 2024">
+          <span class="after-label">2024 - Después</span>
+        </div>
+        <div class="before-after-slider-handle"></div>
       </div>
-      <div class="ba-panel" id="baAfter" style="clip-path:inset(0 50% 0 0);background:linear-gradient(135deg,#0A0A0A,#1C1C1C);">
-        <div style="text-align:center;"><p class="fr" style="font-size:3.5rem;color:rgba(201,168,76,.3);">Ahora</p><p style="font-size:11px;color:rgba(201,168,76,.4);">Banquetas · Árboles · Adoquín</p></div>
-        <span style="position:absolute;bottom:12px;right:12px;background:rgba(201,168,76,.9);padding:5px 10px;border-radius:4px;font-size:9px;font-weight:700;color:var(--b);">Ahora · 2024</span>
+      <div class="before-after-highlights">
+        <h3>Transformación del Centrito Valle</h3>
+        <ul>
+          <li>✓ Infraestructura subterránea moderna (agua, drenaje, gas, electricidad)</li>
+          <li>✓ 400 árboles nativos plantados para ambiente sustentable</li>
+          <li>✓ Banquetas renovadas con adoquín y mobiliario urbano</li>
+          <li>✓ Iluminación LED y señalización moderna</li>
+        </ul>
       </div>
-      <div class="ba-handle-line" id="baLine" style="left:50%;"></div>
-      <div class="ba-handle" id="baHandle" style="left:50%;" onmousedown="sliderStart(event)" ontouchstart="sliderStart(event)">⇔</div>
-      <div style="position:absolute;top:12px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.5);padding:5px 14px;border-radius:20px;font-size:9px;color:rgba(255,255,255,.5);pointer-events:none;white-space:nowrap;">Arrastra para comparar</div>
-    </div>
-    <div class="ba-highlights">
-      <div class="ba-card reveal"><div class="ba-icon">🚶</div><h4>Banquetas renovadas</h4><p>Amplias, arboladas y con adoquín — diseñadas para caminar.</p></div>
-      <div class="ba-card reveal reveal-delay-1"><div class="ba-icon">💡</div><h4>Cableado soterrado</h4><p>Sin postes aéreos. Cielo despejado en todo el distrito.</p></div>
-      <div class="ba-card reveal reveal-delay-2"><div class="ba-icon">🌳</div><h4>Más áreas verdes</h4><p>Nueva vegetación local en todas las calles intervenidas.</p></div>
-      <div class="ba-card reveal reveal-delay-3"><div class="ba-icon">🔧</div><h4>Infraestructura nueva</h4><p>Agua, drenaje, gas y telecomunicaciones modernizados.</p></div>
     </div>
   </div>
 </section>
@@ -827,21 +835,22 @@ function updateCD(){
 updateCD();setInterval(updateCD,1000);
 
 // ── BEFORE/AFTER SLIDER ──
-let slDrag=false;
-function sliderStart(e){slDrag=true;e.preventDefault();}
-document.addEventListener('mouseup',()=>slDrag=false);
-document.addEventListener('touchend',()=>slDrag=false);
-function moveSlider(cx){
-  if(!slDrag)return;
-  const tr=document.getElementById('sliderTrack');if(!tr)return;
-  const r=tr.getBoundingClientRect();
+let baSliderDrag=false;
+function sliderStart(e){baSliderDrag=true;e.preventDefault();}
+document.addEventListener('mouseup',()=>baSliderDrag=false);
+document.addEventListener('touchend',()=>baSliderDrag=false);
+function moveBeforeAfterSlider(cx){
+  if(!baSliderDrag)return;
+  const slider=document.querySelector('.before-after-slider');if(!slider)return;
+  const r=slider.getBoundingClientRect();
   const p=Math.min(100,Math.max(0,((cx-r.left)/r.width)*100));
-  document.getElementById('baAfter').style.clipPath=`inset(0 ${100-p}% 0 0)`;
-  document.getElementById('baLine').style.left=p+'%';
-  document.getElementById('baHandle').style.left=p+'%';
+  const beforeImg=slider.querySelector('.before-after-image.before');
+  const handle=slider.querySelector('.before-after-slider-handle');
+  if(beforeImg)beforeImg.style.clipPath=`inset(0 ${100-p}% 0 0)`;
+  if(handle)handle.style.left=p+'%';
 }
-document.addEventListener('mousemove',e=>moveSlider(e.clientX));
-document.addEventListener('touchmove',e=>{if(e.touches[0])moveSlider(e.touches[0].clientX);});
+document.addEventListener('mousemove',e=>moveBeforeAfterSlider(e.clientX));
+document.addEventListener('touchmove',e=>{if(e.touches[0])moveBeforeAfterSlider(e.touches[0].clientX);});
 
 // ── ROUTE MAP ──
 let rMap,rMarkers=[],rActive=null;
