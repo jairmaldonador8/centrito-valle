@@ -736,6 +736,89 @@ const CAFES=[
   {id:5,name:'Café San Alberto',address:'Calzada del Valle 280',hours:'Lun–Vie 7:00–19:00',openNow:true,must:'Chemex de temporada',tags:['especialidad','terraza'],lat:25.6510,lng:-100.3720,phone:'528183000004'},
 ];
 
+const NOTICIAS = [
+  {
+    id: 1,
+    title: "Centrito Valle: Revitalización de 700 Millones de Pesos Completada",
+    excerpt: "El Municipio de San Pedro Garza García concluyó exitosamente la revitalización del Centrito Valle, modernizando infraestructura y plantando 400 árboles nativos para crear un espacio caminable y seguro.",
+    content: "La transformación incluyó mejoras en sistemas de agua potable, drenaje, gas natural, y cableado subterráneo. Se invirtieron 700 millones de pesos en infraestructura moderna.",
+    date: "2024-01-15",
+    category: "Ciudad",
+    featured: true,
+    image: "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=600&h=400&fit=crop"
+  },
+  {
+    id: 2,
+    title: "México Clasificó al Mundial 2026: Centrito Será el Epicentro de Celebración",
+    excerpt: "Con la confirmación de México en el Mundial 2026, Centrito Valle se prepara para ser la zona de celebración en San Pedro durante los partidos de la selección tricolor.",
+    content: "Se esperan más de 100,000 visitantes durante junio cuando se jueguen los partidos de fase de grupos.",
+    date: "2026-04-10",
+    category: "Mundial",
+    featured: false,
+    image: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&h=400&fit=crop"
+  },
+  {
+    id: 3,
+    title: "Semana Santa 2026: Operación Segura en San Pedro Garza García",
+    excerpt: "El Municipio reportó 'saldo blanco' en operativo de Semana Santa, demostrando capacidad de manejo de eventos masivos en la zona.",
+    content: "Coordinación efectiva entre autoridades municipales y comercio local resultó en evento seguro y ordenado.",
+    date: "2026-04-12",
+    category: "Seguridad",
+    featured: false,
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&h=400&fit=crop"
+  },
+  {
+    id: 4,
+    title: "Tecate Pa'l Norte 2026: Festival de Música en San Pedro",
+    excerpt: "El festival de música más importante de la región confirmó su edición 2026 con artistas de nivel mundial.",
+    content: "Evento atraerá a miles de visitantes al municipio, dinamizando la economía local y el comercio.",
+    date: "2026-02-20",
+    category: "Eventos",
+    featured: false,
+    image: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=600&h=400&fit=crop"
+  }
+];
+
+// ── FORMAT DATE ──
+function formatDate(dateStr) {
+  const date = new Date(dateStr);
+  return date.toLocaleDateString('es-MX', { year: 'numeric', month: 'long', day: 'numeric' });
+}
+
+// ── RENDER NOTICIAS ──
+function renderNoticias() {
+  // Render featured article
+  const featured = NOTICIAS.find(n => n.featured) || NOTICIAS[0];
+  const noticiasSection = document.querySelector('#news');
+
+  if (noticiasSection) {
+    // Find featured article container
+    const featuredContainer = noticiasSection.querySelector('.news-featured .news-card') || noticiasSection.querySelector('.news-featured > div:first-child');
+    if (featuredContainer) {
+      featuredContainer.innerHTML = `
+        <div class="news-img" style="background:url('${featured.image}') center/cover; height:220px;position:relative;">
+          <span class="badge" style="position:absolute;top:12px;left:12px;background:rgba(201,168,76,.15);color:var(--g);">${featured.category}</span>
+        </div>
+        <div class="news-body"><p style="font-size:10px;color:var(--st);">${formatDate(featured.date)}</p><p class="news-title">${featured.title}</p><p class="news-excerpt">${featured.excerpt}</p></div>
+      `;
+    }
+
+    // Render regular news items
+    const newsGrid = noticiasSection.querySelector('.news-featured > div:last-child');
+    if (newsGrid) {
+      newsGrid.innerHTML = NOTICIAS.slice(1, 4).map((noticia, idx) => `
+        <div class="news-card news-card-sm reveal reveal-delay-${idx+1}">
+          <div class="news-img" style="background:url('${noticia.image}') center/cover; height:110px; position:relative;"><span class="badge" style="position:absolute;top:8px;left:8px;background:${noticia.category==='Mundial'?'rgba(193,68,14,.12)':noticia.category==='Seguridad'?'rgba(55,138,221,.12)':'rgba(45,80,22,.12)'};color:${noticia.category==='Mundial'?'var(--tr)':noticia.category==='Seguridad'?'#378ADD':'#5a9e2f'};padding:3px 9px;border-radius:4px;font-size:10px;font-weight:600;">${noticia.category}</span></div>
+          <div class="news-body"><p style="font-size:10px;color:var(--st);">${formatDate(noticia.date)}</p><p class="news-title">${noticia.title}</p></div>
+        </div>
+      `).join('');
+    }
+  }
+}
+
+// Call on page load
+document.addEventListener('DOMContentLoaded', renderNoticias);
+
 // ── RENDER PLACES ──
 document.getElementById('placesGrid').innerHTML=PLACES.map(p=>`
 <div class="place-card">
