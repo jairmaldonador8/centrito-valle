@@ -1,0 +1,904 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Distrito Centro Valle — El corazón de San Pedro</title>
+<meta name="description" content="Sitio oficial del Distrito Centro Valle, San Pedro Garza García, N.L. Gastronomía, arte, eventos y comunidad.">
+<meta property="og:title" content="Distrito Centro Valle">
+<meta property="og:description" content="El corazón de San Pedro Garza García.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=DM+Sans:wght@300;400;500;600&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<style>
+:root{
+  --b:#0A0A0A;--ink:#1C1C1C;--carbon:#2E2E2E;
+  --w:#F5F2EC;--g:#C9A84C;--gd:#A8883A;
+  --st:#8C8375;--cr:#FAF7F0;--gr:#2D5016;--tr:#C1440E;
+  --border:rgba(201,168,76,0.2);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--b);color:var(--w);font-family:'DM Sans',sans-serif;font-weight:300;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+.fr{font-family:'Fraunces',serif;}
+a{color:inherit;text-decoration:none;transition:color .2s;}
+img{max-width:100%;display:block;}
+::selection{background:var(--g);color:var(--b);}
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:var(--b);}
+::-webkit-scrollbar-thumb{background:var(--g);border-radius:2px;}
+
+/* ── NAVBAR ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:14px 32px;display:flex;align-items:center;justify-content:space-between;transition:background .4s,border-color .4s;border-bottom:1px solid transparent;}
+nav.scrolled{background:rgba(10,10,10,.96);border-color:var(--border);backdrop-filter:blur(8px);}
+.nav-logo{display:flex;align-items:center;gap:10px;cursor:pointer;}
+.nav-logo-text{display:flex;flex-direction:column;}
+.nav-logo-sub{font-size:7px;color:rgba(245,242,236,.3);letter-spacing:1.2px;text-transform:uppercase;}
+.nav-logo-main{font-size:12px;font-weight:600;color:#fff;letter-spacing:2.5px;text-transform:uppercase;}
+.nav-links{display:flex;align-items:center;gap:20px;}
+.nav-links a{font-size:9.5px;font-weight:500;color:rgba(245,242,236,.45);letter-spacing:.1em;text-transform:uppercase;transition:color .2s;}
+.nav-links a:hover{color:var(--w);}
+.nav-cta{padding:6px 14px;background:var(--tr);border-radius:5px;font-size:9px;font-weight:700;color:#fff;letter-spacing:.06em;text-transform:uppercase;animation:navpulse 2.5s infinite;}
+@keyframes navpulse{0%,100%{opacity:1}50%{opacity:.72}}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;}
+.hamburger span{display:block;width:22px;height:1.5px;background:var(--w);transition:all .3s;}
+.mobile-menu{display:none;position:fixed;inset:0;background:rgba(10,10,10,.98);z-index:99;flex-direction:column;justify-content:center;padding:40px 32px;gap:28px;}
+.mobile-menu.open{display:flex;}
+.mobile-menu a{font-family:'Fraunces',serif;font-size:2.2rem;color:var(--w);}
+.mobile-menu a:hover{color:var(--g);}
+@media(max-width:768px){
+  .nav-links{display:none;}
+  .hamburger{display:flex;}
+}
+
+/* ── UTILS ── */
+.container{max-width:1200px;margin:0 auto;padding:0 32px;}
+.eyebrow{display:flex;align-items:center;gap:10px;margin-bottom:14px;}
+.eyebrow-line{width:22px;height:1px;background:var(--g);}
+.eyebrow-t{font-size:9px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--g);}
+section{padding:80px 0;border-top:1px solid var(--border);}
+.section-header{margin-bottom:40px;}
+.section-header h2{font-family:'Fraunces',serif;font-size:clamp(2rem,4vw,3.2rem);line-height:.95;}
+.section-header p{font-size:13px;color:var(--st);margin-top:10px;max-width:480px;line-height:1.7;}
+.btn-gold{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--g);color:var(--b);border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:background .2s;}
+.btn-gold:hover{background:var(--gd);}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border:1px solid rgba(201,168,76,.3);color:rgba(245,242,236,.7);background:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;}
+.btn-outline:hover{border-color:var(--g);color:var(--w);}
+.btn-terra{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border:1px solid rgba(193,68,14,.5);color:var(--tr);background:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;}
+.btn-terra:hover{background:rgba(193,68,14,.1);}
+.badge{font-size:10px;font-weight:600;padding:3px 9px;border-radius:4px;display:inline-block;}
+
+/* ── HERO ── */
+#hero{min-height:100vh;display:flex;flex-direction:column;position:relative;overflow:hidden;border-top:none;padding:0;}
+.hero-grid{position:absolute;inset:0;opacity:.042;pointer-events:none;background-image:linear-gradient(var(--g) 1px,transparent 1px),linear-gradient(90deg,var(--g) 1px,transparent 1px);background-size:64px 64px;}
+.hero-glow{position:absolute;top:0;left:50%;transform:translateX(-50%);width:900px;height:500px;background:radial-gradient(ellipse at center top,rgba(201,168,76,.07) 0%,transparent 70%);pointer-events:none;}
+.hero-circle{position:absolute;border-radius:50%;border:1px solid rgba(201,168,76,.06);pointer-events:none;}
+.hero-content{position:relative;z-index:2;flex:1;display:flex;flex-direction:column;justify-content:center;max-width:1200px;margin:0 auto;padding:120px 32px 60px;width:100%;}
+.hero-h1{font-family:'Fraunces',serif;font-size:clamp(3.5rem,9vw,8rem);line-height:.9;margin-bottom:6px;}
+.hero-h1-gold{color:var(--g);font-style:italic;}
+.hero-sub{font-size:16px;font-weight:300;color:var(--st);max-width:420px;line-height:1.75;margin:24px 0 36px;}
+.hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:56px;}
+.hero-stats{display:flex;flex-wrap:wrap;gap:28px;}
+.hero-stat p:first-child{font-family:'Fraunces',serif;font-size:2.5rem;color:var(--g);line-height:1;}
+.hero-stat p:last-child{font-size:9px;color:var(--st);text-transform:uppercase;letter-spacing:.1em;margin-top:3px;}
+.hero-scroll{position:relative;z-index:2;display:flex;justify-content:center;padding-bottom:20px;}
+.hero-scroll-inner{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.hero-scroll span{font-size:9px;color:rgba(140,131,117,.4);text-transform:uppercase;letter-spacing:.12em;}
+.hero-scroll-line{width:1px;height:36px;background:rgba(201,168,76,.25);animation:scrollpulse 2s ease-in-out infinite;}
+@keyframes scrollpulse{0%,100%{opacity:.3}50%{opacity:.8}}
+
+/* ── TICKER ── */
+.ticker{padding:10px 0;overflow:hidden;white-space:nowrap;border-bottom:1px solid var(--border);}
+.ticker-inner{display:inline-flex;animation:ticker 30s linear infinite;}
+.ticker-inner:hover{animation-play-state:paused;}
+.ticker-item{padding:0 22px;font-size:9.5px;font-weight:500;letter-spacing:.12em;text-transform:uppercase;}
+@keyframes ticker{to{transform:translateX(-50%);}}
+
+/* ── CATEGORIES ── */
+#categories{background:var(--b);}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
+.cat-card{border:1px solid rgba(201,168,76,.14);border-radius:12px;padding:22px 14px;text-align:center;background:rgba(28,28,28,.5);cursor:pointer;transition:all .25s;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.cat-card:hover{border-color:rgba(201,168,76,.5);background:var(--ink);}
+.cat-icon{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;transition:transform .3s;}
+.cat-card:hover .cat-icon{transform:scale(1.12);}
+.cat-label{font-size:11px;font-weight:500;color:rgba(245,242,236,.75);}
+.cat-count{font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;}
+
+/* ── STATS ── */
+#stats{background:var(--b);}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;}
+.stat-box{border:1px solid rgba(201,168,76,.14);border-radius:12px;padding:22px 18px;background:rgba(28,28,28,.4);transition:all .25s;cursor:default;}
+.stat-box:hover{border-color:rgba(201,168,76,.4);background:var(--ink);}
+.stat-num{font-family:'Fraunces',serif;font-size:2.8rem;color:var(--g);line-height:1;}
+.stat-name{font-size:12px;font-weight:500;color:var(--w);margin:5px 0 3px;}
+.stat-desc{font-size:10px;color:var(--st);}
+
+/* ── EVENTS ── */
+#events{background:var(--b);}
+.events-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;}
+.event-card{border:1px solid rgba(201,168,76,.14);border-radius:12px;padding:18px;background:rgba(28,28,28,.4);display:flex;gap:14px;align-items:flex-start;transition:all .25s;cursor:pointer;}
+.event-card:hover{border-color:rgba(201,168,76,.4);}
+.event-date{width:50px;height:50px;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;flex-shrink:0;}
+.event-date-n{font-family:'Fraunces',serif;font-size:1.4rem;line-height:1;}
+.event-date-m{font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--st);}
+.event-title{font-size:13px;font-weight:500;color:var(--w);line-height:1.3;margin:5px 0 4px;}
+.event-meta{font-size:10px;color:var(--st);}
+
+/* ── MUNDIAL ── */
+#mundial{background:linear-gradient(135deg,#071207 0%,var(--b) 50%,#160a0a 100%);position:relative;overflow:hidden;}
+.flag-strip{height:5px;display:flex;position:absolute;left:0;right:0;}
+.flag-strip.top{top:0;}
+.flag-strip.bot{bottom:0;}
+.flag-green{flex:1;background:var(--gr);}
+.flag-white{flex:1;background:rgba(255,255,255,.22);}
+.flag-red{flex:1;background:var(--tr);}
+.mundial-wm{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;overflow:hidden;pointer-events:none;}
+.mundial-wm span{font-family:'Fraunces',serif;font-size:clamp(8rem,22vw,18rem);color:rgba(255,255,255,.025);font-weight:900;user-select:none;}
+.mundial-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;position:relative;z-index:1;}
+.mundial-stats{display:flex;gap:24px;margin:20px 0;}
+.mundial-stat p:first-child{font-family:'Fraunces',serif;font-size:2rem;color:var(--g);}
+.mundial-stat p:last-child{font-size:9px;color:var(--st);text-transform:uppercase;letter-spacing:.08em;}
+.countdown-box{border:1px solid rgba(45,80,22,.35);border-radius:16px;padding:32px;text-align:center;background:rgba(255,255,255,.03);}
+.cd-grid{display:flex;align-items:flex-end;justify-content:center;gap:8px;margin:16px 0 8px;}
+.cd-unit{text-align:center;}
+.cd-num{font-family:'Fraunces',serif;font-size:clamp(2rem,5vw,3.2rem);color:var(--g);line-height:1;min-width:2ch;}
+.cd-label{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--st);margin-top:2px;}
+.cd-sep{font-family:'Fraunces',serif;font-size:2rem;color:rgba(201,168,76,.3);padding-bottom:12px;}
+@media(max-width:768px){.mundial-grid{grid-template-columns:1fr;gap:28px;}}
+
+/* ── PLACES ── */
+#places{background:var(--b);}
+.places-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;}
+.place-card{border:1px solid rgba(201,168,76,.14);border-radius:12px;overflow:hidden;background:var(--ink);transition:all .25s;cursor:pointer;}
+.place-card:hover{border-color:rgba(201,168,76,.45);transform:translateY(-2px);}
+.place-img{height:140px;display:flex;align-items:center;justify-content:center;position:relative;}
+.place-body{padding:16px;}
+.place-name{font-family:'Fraunces',serif;font-size:1.15rem;color:var(--w);margin-bottom:5px;}
+.place-desc{font-size:11px;color:var(--st);line-height:1.55;margin-bottom:12px;}
+.place-actions{display:flex;gap:8px;}
+.place-btn{flex:1;padding:8px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;cursor:pointer;text-align:center;transition:all .2s;}
+.place-btn-wa{border:1px solid rgba(45,80,22,.4);color:#5a9e2f;background:none;}
+.place-btn-wa:hover{background:rgba(45,80,22,.1);}
+.place-btn-map{border:1px solid rgba(201,168,76,.25);color:var(--g);background:none;}
+.place-btn-map:hover{background:rgba(201,168,76,.08);}
+
+/* ── PROMOS ── */
+#promos{background:var(--b);}
+.promos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:10px;margin-bottom:16px;}
+.promo-card{border:1px solid rgba(201,168,76,.14);border-radius:12px;overflow:hidden;background:var(--ink);transition:border .25s;}
+.promo-card:hover{border-color:rgba(201,168,76,.4);}
+.promo-bar{height:3px;}
+.promo-body{padding:16px;}
+.promo-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
+.promo-exp{font-size:9px;color:var(--st);}
+.promo-title{font-family:'Fraunces',serif;font-size:1.1rem;color:var(--w);margin-bottom:6px;}
+.promo-desc{font-size:10px;color:var(--st);line-height:1.5;margin-bottom:12px;}
+.promo-code{width:100%;padding:9px 12px;border-radius:7px;background:none;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;cursor:pointer;display:flex;justify-content:space-between;align-items:center;letter-spacing:.08em;transition:all .2s;}
+.promo-cta-row{padding:16px 20px;border:1px solid rgba(201,168,76,.18);border-radius:12px;background:rgba(28,28,28,.4);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+
+/* ── BEFORE/AFTER ── */
+#before-after{background:var(--cr);}
+#before-after .section-header h2{color:var(--b);}
+#before-after .section-header p{color:var(--st);}
+.slider-track{position:relative;height:280px;border-radius:14px;overflow:hidden;cursor:col-resize;user-select:none;border:1px solid rgba(140,131,117,.2);}
+.ba-panel{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;}
+.ba-handle-line{position:absolute;top:0;bottom:0;width:2px;background:var(--g);z-index:3;pointer-events:none;}
+.ba-handle{position:absolute;top:50%;z-index:4;width:38px;height:38px;border-radius:50%;background:var(--g);border:2px solid var(--b);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:var(--b);transform:translate(-50%,-50%);cursor:col-resize;}
+.ba-highlights{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:20px;}
+.ba-card{padding:16px;border-radius:12px;border:1px solid rgba(140,131,117,.2);background:rgba(255,255,255,.6);transition:all .25s;}
+.ba-card:hover{border-color:rgba(201,168,76,.4);background:white;}
+.ba-icon{font-size:20px;margin-bottom:8px;}
+.ba-card h4{font-size:13px;font-weight:500;color:var(--b);margin-bottom:3px;}
+.ba-card p{font-size:10px;color:var(--st);}
+
+/* ── RUTA DEL CAFÉ ── */
+#cafe-route{background:var(--b);}
+.route-layout{display:grid;grid-template-columns:300px 1fr;gap:0;border:1px solid rgba(201,168,76,.15);border-radius:14px;overflow:hidden;}
+@media(max-width:768px){.route-layout{grid-template-columns:1fr;}}
+.route-sidebar{background:var(--ink);border-right:1px solid rgba(201,168,76,.1);overflow-y:auto;max-height:480px;}
+.route-sidebar::-webkit-scrollbar{width:3px;}
+.route-sidebar::-webkit-scrollbar-thumb{background:rgba(201,168,76,.3);border-radius:2px;}
+.route-stop{padding:16px 18px;border-bottom:1px solid rgba(201,168,76,.08);cursor:pointer;transition:background .15s;position:relative;}
+.route-stop:hover{background:rgba(201,168,76,.05);}
+.route-stop.active{background:rgba(201,168,76,.08);border-left:3px solid var(--g);}
+.route-stop.active .stop-num{background:var(--g);color:var(--b);}
+.stop-num{width:26px;height:26px;border-radius:50%;background:rgba(201,168,76,.15);color:var(--g);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.stop-head{display:flex;align-items:center;gap:10px;margin-bottom:6px;}
+.stop-name{font-family:'Fraunces',serif;font-size:1rem;color:var(--w);}
+.stop-meta{font-size:10px;color:var(--st);line-height:1.5;}
+.stop-must{margin-top:8px;padding:7px 10px;background:rgba(201,168,76,.07);border-radius:6px;font-size:10px;color:var(--g);}
+.route-map-wrap{height:480px;}
+#route-map{width:100%;height:100%;}
+.route-detail{padding:14px 20px;background:var(--ink);border-top:1px solid rgba(201,168,76,.1);display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;}
+.route-detail-name{font-family:'Fraunces',serif;font-size:1.1rem;color:var(--w);}
+.route-detail-meta{font-size:10px;color:var(--st);margin-top:2px;}
+.route-actions{display:flex;gap:8px;}
+.route-btn{padding:8px 14px;border-radius:7px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;cursor:pointer;transition:all .18s;}
+
+/* ── NEWS ── */
+#news{background:var(--b);}
+.news-featured{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px;}
+@media(max-width:768px){.news-featured{grid-template-columns:1fr;}}
+.news-card{border:1px solid rgba(201,168,76,.14);border-radius:12px;overflow:hidden;background:rgba(28,28,28,.4);transition:all .25s;cursor:pointer;}
+.news-card:hover{border-color:rgba(201,168,76,.4);transform:translateY(-2px);}
+.news-img{height:180px;display:flex;align-items:center;justify-content:center;position:relative;}
+.news-body{padding:16px;}
+.news-title{font-family:'Fraunces',serif;font-size:1.15rem;color:var(--w);line-height:1.3;margin:8px 0 6px;}
+.news-excerpt{font-size:11px;color:var(--st);line-height:1.6;}
+.news-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:10px;}
+.news-card-sm .news-img{height:110px;}
+.news-card-sm .news-title{font-size:1rem;}
+
+/* ── SPONSORS ── */
+#sponsors{background:var(--ink);}
+.sponsor-tier-label{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:rgba(140,131,117,.45);margin-bottom:10px;}
+.sponsor-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
+.sponsor-slot{border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:10px;color:rgba(140,131,117,.35);transition:all .2s;cursor:pointer;}
+.sponsor-slot:hover{border-color:rgba(201,168,76,.5);color:var(--g);}
+.sponsor-slot.filled{background:rgba(201,168,76,.06);}
+.sponsor-empty{border:1px dashed rgba(201,168,76,.18);}
+.sponsor-real{border:1px solid rgba(201,168,76,.22);}
+
+/* ── NEWSLETTER ── */
+#newsletter{background:var(--b);text-align:center;}
+#newsletter h2{font-family:'Fraunces',serif;font-size:clamp(1.8rem,4vw,3rem);}
+.nl-form{display:flex;gap:10px;max-width:420px;margin:0 auto;}
+.nl-form input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.25);border-radius:8px;padding:13px 16px;font-size:13px;color:var(--w);font-family:'DM Sans',sans-serif;}
+.nl-form input::placeholder{color:var(--st);}
+.nl-form input:focus{outline:none;border-color:var(--g);}
+
+/* ── FOOTER ── */
+footer{background:var(--ink);border-top:1px solid var(--border);padding:60px 0 20px;}
+.footer-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:32px;margin-bottom:40px;}
+@media(max-width:768px){.footer-grid{grid-template-columns:1fr;}}
+.footer-brand p{font-size:12px;color:var(--st);line-height:1.7;margin-top:14px;max-width:260px;}
+.footer-heading{font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--st);margin-bottom:16px;}
+.footer-links{display:flex;flex-direction:column;gap:10px;}
+.footer-links a{font-size:13px;color:rgba(245,242,236,.5);transition:color .2s;}
+.footer-links a:hover{color:var(--g);}
+.footer-bottom{border-top:1px solid rgba(201,168,76,.1);padding-top:16px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.footer-bottom p{font-size:10px;color:rgba(140,131,117,.5);}
+
+/* ── ANIMATIONS ── */
+.reveal{opacity:0;transform:translateY(40px);transition:opacity .7s ease,transform .7s ease;}
+.reveal.visible{opacity:1;transform:translateY(0);}
+.reveal-delay-1{transition-delay:.1s;}
+.reveal-delay-2{transition-delay:.2s;}
+.reveal-delay-3{transition-delay:.3s;}
+.reveal-delay-4{transition-delay:.4s;}
+</style>
+</head>
+<body>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#" onclick="closeMobile()">Inicio</a>
+  <a href="#categories" onclick="closeMobile()">Explorar</a>
+  <a href="#events" onclick="closeMobile()">Eventos</a>
+  <a href="#mundial" onclick="closeMobile()">Mundial 2026</a>
+  <a href="#cafe-route" onclick="closeMobile()">Ruta del café</a>
+  <a href="#news" onclick="closeMobile()">Noticias</a>
+  <a href="#newsletter" onclick="closeMobile()">Contacto</a>
+</div>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo" onclick="scrollTo(0,0)">
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+      <line x1="16" y1="16" x2="16" y2="2"  stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <line x1="16" y1="16" x2="30" y2="2"  stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <line x1="16" y1="16" x2="30" y2="16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <line x1="16" y1="16" x2="30" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <line x1="16" y1="16" x2="16" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <line x1="16" y1="16" x2="2"  y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <line x1="16" y1="16" x2="2"  y2="16" stroke="white" stroke-width="2" stroke-linecap="round"/>
+      <line x1="16" y1="16" x2="2"  y2="2"  stroke="white" stroke-width="2" stroke-linecap="round"/>
+    </svg>
+    <div class="nav-logo-text">
+      <span class="nav-logo-sub">Municipio de San Pedro</span>
+      <span class="nav-logo-main">Distrito Centro Valle</span>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="#categories">Explorar</a>
+    <a href="#events">Eventos</a>
+    <a href="#mundial">Mundial</a>
+    <a href="#cafe-route">Ruta café</a>
+    <a href="#news">Noticias</a>
+    <a href="#newsletter" class="nav-cta">⚽ Mundial 2026</a>
+  </div>
+  <div class="hamburger" onclick="toggleMobile()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-circle" style="top:20%;left:28%;width:560px;height:560px;"></div>
+  <div class="hero-circle" style="top:35%;left:48%;width:340px;height:340px;opacity:.6;"></div>
+  <div class="hero-content">
+    <div class="eyebrow reveal">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-t">San Pedro Garza García · Nuevo León · México</span>
+    </div>
+    <svg width="64" height="64" viewBox="0 0 32 32" fill="none" style="margin-bottom:24px;" class="reveal reveal-delay-1" aria-label="Logo Distrito Centro Valle">
+      <line x1="16" y1="16" x2="16" y2="2"  stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="16" y1="16" x2="30" y2="2"  stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="16" y1="16" x2="30" y2="16" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="16" y1="16" x2="30" y2="30" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="16" y1="16" x2="16" y2="30" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="16" y1="16" x2="2"  y2="30" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="16" y1="16" x2="2"  y2="16" stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="16" y1="16" x2="2"  y2="2"  stroke="white" stroke-width="1.8" stroke-linecap="round"/>
+    </svg>
+    <div class="reveal reveal-delay-1">
+      <h1 class="hero-h1">El barrio</h1>
+      <h1 class="hero-h1 hero-h1-gold">que vive.</h1>
+    </div>
+    <p class="hero-sub reveal reveal-delay-2">Gastronomía, arte, eventos y comunidad<br>en el corazón de San Pedro.</p>
+    <div class="hero-ctas reveal reveal-delay-3">
+      <a href="#categories" class="btn-gold">Explorar el barrio →</a>
+      <a href="#mundial" class="btn-terra">⚽ Mundial 2026</a>
+      <a href="#cafe-route" class="btn-outline">Ruta del café</a>
+    </div>
+    <div class="hero-stats reveal reveal-delay-4">
+      <div class="hero-stat"><p class="fr" id="hs1">0+</p><p>Negocios</p></div>
+      <div class="hero-stat"><p class="fr" id="hs2">0</p><p>Años de historia</p></div>
+      <div class="hero-stat"><p class="fr" id="hs3">0</p><p>Cafés en la ruta</p></div>
+      <div class="hero-stat"><p class="fr" id="hs4">0+</p><p>Venues Mundial</p></div>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="hero-scroll-inner">
+      <span>Scroll</span>
+      <div class="hero-scroll-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker" aria-hidden="true">
+  <div class="ticker-inner">
+    <span class="ticker-item" style="color:rgba(245,242,236,.5);">Centrito Valle</span><span class="ticker-item" style="color:var(--g);">·</span>
+    <span class="ticker-item" style="color:rgba(245,242,236,.5);">Cafés · Restaurantes · Arte</span><span class="ticker-item" style="color:var(--g);">·</span>
+    <span class="ticker-item" style="color:rgba(245,242,236,.5);">Mundial 2026 — ve los partidos aquí</span><span class="ticker-item" style="color:var(--g);">·</span>
+    <span class="ticker-item" style="color:rgba(245,242,236,.5);">San Pedro Garza García</span><span class="ticker-item" style="color:var(--g);">·</span>
+    <span class="ticker-item" style="color:rgba(245,242,236,.5);">#CentritoValle</span><span class="ticker-item" style="color:var(--g);">·</span>
+    <span class="ticker-item" style="color:rgba(245,242,236,.5);">Ruta del Café · 5 stops · 2.3 km</span><span class="ticker-item" style="color:var(--g);">·</span>
+    <span class="ticker-item" style="color:rgba(245,242,236,.5);">Nuevas aperturas esta semana</span><span class="ticker-item" style="color:var(--g);">·</span>
+    <span class="ticker-item" style="color:rgba(245,242,236,.5);">Centrito Valle</span><span class="ticker-item" style="color:var(--g);">·</span>
+    <span class="ticker-item" style="color:rgba(245,242,236,.5);">Cafés · Restaurantes · Arte</span><span class="ticker-item" style="color:var(--g);">·</span>
+    <span class="ticker-item" style="color:rgba(245,242,236,.5);">Mundial 2026 — ve los partidos aquí</span><span class="ticker-item" style="color:var(--g);">·</span>
+    <span class="ticker-item" style="color:rgba(245,242,236,.5);">San Pedro Garza García</span><span class="ticker-item" style="color:var(--g);">·</span>
+    <span class="ticker-item" style="color:rgba(245,242,236,.5);">#CentritoValle</span><span class="ticker-item" style="color:var(--g);">·</span>
+    <span class="ticker-item" style="color:rgba(245,242,236,.5);">Ruta del Café · 5 stops · 2.3 km</span><span class="ticker-item" style="color:var(--g);">·</span>
+    <span class="ticker-item" style="color:rgba(245,242,236,.5);">Nuevas aperturas esta semana</span><span class="ticker-item" style="color:var(--g);">·</span>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section id="categories">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-t">Explorar</span></div>
+      <h2>¿Qué buscas <em style="color:var(--g);">hoy?</em></h2>
+    </div>
+    <div class="cat-grid">
+      <a href="#places" class="cat-card reveal"><div class="cat-icon" style="background:rgba(201,168,76,.15);">☕</div><span class="cat-label">Cafés</span><span class="cat-count" style="background:rgba(201,168,76,.12);color:var(--g);">8+</span></a>
+      <a href="#places" class="cat-card reveal reveal-delay-1"><div class="cat-icon" style="background:rgba(45,80,22,.15);">🍽</div><span class="cat-label">Restaurantes</span><span class="cat-count" style="background:rgba(45,80,22,.12);color:#5a9e2f;">30+</span></a>
+      <a href="#places" class="cat-card reveal reveal-delay-2"><div class="cat-icon" style="background:rgba(193,68,14,.15);">🍸</div><span class="cat-label">Bares</span><span class="cat-count" style="background:rgba(193,68,14,.12);color:var(--tr);">12+</span></a>
+      <a href="#places" class="cat-card reveal reveal-delay-3"><div class="cat-icon" style="background:rgba(127,119,221,.15);">🛍</div><span class="cat-label">Tiendas</span><span class="cat-count" style="background:rgba(127,119,221,.12);color:#7F77DD;">25+</span></a>
+      <a href="#places" class="cat-card reveal reveal-delay-4"><div class="cat-icon" style="background:rgba(212,83,126,.15);">🎨</div><span class="cat-label">Arte & Cultura</span><span class="cat-count" style="background:rgba(212,83,126,.12);color:#D4537E;">10+</span></a>
+      <a href="#places" class="cat-card reveal reveal-delay-4"><div class="cat-icon" style="background:rgba(59,109,17,.15);">🌿</div><span class="cat-label">Parques</span><span class="cat-count" style="background:rgba(59,109,17,.12);color:#3B6D11;">4</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section id="stats">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-t">El barrio en números</span></div>
+      <h2>Centrito Valle, <em style="color:var(--g);">por los datos</em></h2>
+    </div>
+    <div class="stats-grid">
+      <div class="stat-box reveal"><p class="stat-num cs" data-end="120" data-suf="+">0+</p><p class="stat-name">Negocios</p><p class="stat-desc">Cafés, bares, tiendas y más</p></div>
+      <div class="stat-box reveal reveal-delay-1"><p class="stat-num cs" data-end="80" data-suf="">0</p><p class="stat-name">Años de historia</p><p class="stat-desc">Desde los años 40</p></div>
+      <div class="stat-box reveal reveal-delay-2"><p class="stat-num cs" data-end="700" data-suf="M">0M</p><p class="stat-name">Pesos inversión</p><p class="stat-desc">Proyecto urbano DCV</p></div>
+      <div class="stat-box reveal reveal-delay-3"><p class="stat-num cs" data-end="12" data-suf="+">0+</p><p class="stat-name">Venues Mundial</p><p class="stat-desc">Pantallas LED gigantes</p></div>
+      <div class="stat-box reveal reveal-delay-4"><p class="stat-num cs" data-end="5" data-suf="">0</p><p class="stat-name">Cafés en la ruta</p><p class="stat-desc">2.3 km a pie</p></div>
+      <div class="stat-box reveal reveal-delay-4"><p class="stat-num cs" data-end="10" data-suf="M">0M</p><p class="stat-name">Visitantes</p><p class="stat-desc">Proyección Mundial 2026</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- EVENTS -->
+<section id="events">
+  <div class="container">
+    <div class="section-header reveal" style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div><div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-t">Agenda</span></div><h2>¿Qué hay <em style="color:var(--g);">esta semana?</em></h2></div>
+      <a href="#newsletter" style="font-size:12px;color:var(--g);">Ver todos →</a>
+    </div>
+    <div class="events-grid">
+      <div class="event-card reveal">
+        <div class="event-date" style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);"><span class="event-date-n fr" style="color:var(--g);">6</span><span class="event-date-m">Jun</span></div>
+        <div><span class="badge" style="background:rgba(201,168,76,.12);color:var(--g);margin-bottom:5px;">Mercado</span><p class="event-title">Mercado Artesanal del Centrito</p><p class="event-meta">📍 Plaza Principal · 9:00 hrs</p></div>
+      </div>
+      <div class="event-card reveal reveal-delay-1">
+        <div class="event-date" style="background:rgba(193,68,14,.1);border:1px solid rgba(193,68,14,.2);"><span class="event-date-n fr" style="color:var(--tr);">13</span><span class="event-date-m">Jun</span></div>
+        <div><span class="badge" style="background:rgba(193,68,14,.12);color:var(--tr);margin-bottom:5px;">⚽ Mundial</span><p class="event-title">México — Ver el partido en el Centrito</p><p class="event-meta">📍 Venues del barrio · 19:00 hrs</p></div>
+      </div>
+      <div class="event-card reveal reveal-delay-2">
+        <div class="event-date" style="background:rgba(127,119,221,.1);border:1px solid rgba(127,119,221,.2);"><span class="event-date-n fr" style="color:#7F77DD;">19</span><span class="event-date-m">Jun</span></div>
+        <div><span class="badge" style="background:rgba(127,119,221,.12);color:#7F77DD;margin-bottom:5px;">Música</span><p class="event-title">Noche de Jazz en el Centrito</p><p class="event-meta">📍 Hanky Panky · 20:30 hrs</p></div>
+      </div>
+      <div class="event-card reveal reveal-delay-3">
+        <div class="event-date" style="background:rgba(212,83,126,.1);border:1px solid rgba(212,83,126,.2);"><span class="event-date-n fr" style="color:#D4537E;">20</span><span class="event-date-m">Jun</span></div>
+        <div><span class="badge" style="background:rgba(212,83,126,.12);color:#D4537E;margin-bottom:5px;">Arte</span><p class="event-title">Pop-up de Arte Local</p><p class="event-meta">📍 Paseo Díaz Ordaz · 11:00 hrs</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MUNDIAL -->
+<section id="mundial">
+  <div class="flag-strip top"><div class="flag-green"></div><div class="flag-white"></div><div class="flag-red"></div></div>
+  <div class="mundial-wm"><span>2026</span></div>
+  <div class="container">
+    <div class="mundial-grid">
+      <div class="reveal">
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px;">
+          <span style="font-size:48px;">⚽</span>
+          <div>
+            <div class="eyebrow" style="margin-bottom:4px;"><div class="eyebrow-line" style="background:var(--gr);"></div><span class="eyebrow-t" style="color:var(--gr);">Copa del Mundo 2026</span></div>
+            <h2 class="fr" style="font-size:clamp(1.8rem,4vw,3rem);line-height:.95;color:var(--w);">Vive el Mundial<br><em style="color:var(--g);">en el Centrito</em></h2>
+          </div>
+        </div>
+        <p style="font-size:13px;font-weight:300;color:var(--st);max-width:340px;line-height:1.75;margin-bottom:20px;">12 venues con pantallas LED, menús especiales y el mejor ambiente de San Pedro.</p>
+        <div class="mundial-stats">
+          <div class="mundial-stat"><p class="fr">12+</p><p>Venues</p></div>
+          <div class="mundial-stat"><p class="fr">500+</p><p>Asientos</p></div>
+          <div class="mundial-stat"><p class="fr">3</p><p>Partidos MX</p></div>
+        </div>
+        <div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;">
+          <span style="padding:5px 12px;border:1px solid rgba(45,80,22,.4);border-radius:20px;font-size:11px;color:var(--gr);">Club Centrito del Valle</span>
+          <span style="padding:5px 12px;border:1px solid rgba(45,80,22,.4);border-radius:20px;font-size:11px;color:var(--gr);">Los Generales</span>
+          <span style="padding:5px 12px;border:1px solid rgba(45,80,22,.4);border-radius:20px;font-size:11px;color:var(--gr);">Olio</span>
+          <span style="padding:5px 12px;border:1px solid rgba(45,80,22,.4);border-radius:20px;font-size:11px;color:var(--gr);">Havre 77</span>
+        </div>
+        <a href="#newsletter" class="btn-terra" style="background:var(--tr);color:white;border:none;border-radius:8px;display:inline-flex;align-items:center;gap:8px;padding:13px 28px;font-size:12px;font-weight:600;">Ver guía completa →</a>
+      </div>
+      <div class="countdown-box reveal reveal-delay-2">
+        <p style="font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gr);">🇲🇽 Próximo partido</p>
+        <p class="fr" style="font-size:1.4rem;color:var(--w);margin:8px 0;">México vs. Por definir</p>
+        <div class="cd-grid">
+          <div class="cd-unit"><p class="cd-num" id="cd-d">00</p><p class="cd-label">días</p></div>
+          <span class="cd-sep">:</span>
+          <div class="cd-unit"><p class="cd-num" id="cd-h">00</p><p class="cd-label">horas</p></div>
+          <span class="cd-sep">:</span>
+          <div class="cd-unit"><p class="cd-num" id="cd-m">00</p><p class="cd-label">min</p></div>
+          <span class="cd-sep">:</span>
+          <div class="cd-unit"><p class="cd-num" id="cd-s">00</p><p class="cd-label">seg</p></div>
+        </div>
+        <p style="font-size:10px;color:var(--st);">📍 SoFi Stadium · Los Ángeles, CA</p>
+        <a href="#places" style="display:inline-block;margin-top:16px;padding:9px 20px;border:1px solid rgba(45,80,22,.5);border-radius:8px;font-size:10px;font-weight:600;color:var(--gr);transition:all .2s;">Ver venues con pantalla →</a>
+      </div>
+    </div>
+  </div>
+  <div class="flag-strip bot"><div class="flag-green"></div><div class="flag-white"></div><div class="flag-red"></div></div>
+</section>
+
+<!-- PLACES -->
+<section id="places">
+  <div class="container">
+    <div class="section-header reveal" style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div><div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-t">Spotlight</span></div><h2>Lo mejor <em style="color:var(--g);">del barrio</em></h2></div>
+      <a href="#categories" style="font-size:12px;color:var(--g);">Ver directorio →</a>
+    </div>
+    <div class="places-grid" id="placesGrid"></div>
+  </div>
+</section>
+
+<!-- PROMOS -->
+<section id="promos">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-t">Promociones</span></div>
+      <h2>Deals <em style="color:var(--g);">del barrio</em></h2>
+    </div>
+    <div class="promos-grid" id="promosGrid"></div>
+    <div class="promo-cta-row reveal">
+      <div><p style="font-size:14px;font-weight:500;">¿Tienes un negocio en el Centrito?</p><p style="font-size:11px;color:var(--st);margin-top:3px;">Publica tu promoción y llega a miles de visitantes del barrio.</p></div>
+      <a href="mailto:hola@centritovalle.mx" class="btn-gold">Publicar mi promo</a>
+    </div>
+  </div>
+</section>
+
+<!-- ANTES / DESPUÉS -->
+<section id="before-after" style="background:var(--cr);border-top:1px solid rgba(140,131,117,.15);">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-t" style="color:var(--g);">La transformación</span></div>
+      <h2>El Centrito de antes<br><em style="color:var(--g);">y el de ahora</em></h2>
+      <p>700 millones de pesos de inversión. Arrastra para comparar el barrio antes y después de la renovación.</p>
+    </div>
+    <div class="slider-track" id="sliderTrack">
+      <div class="ba-panel" id="baBefore" style="background:linear-gradient(135deg,#1a1a1a,#2e2e2e);">
+        <div style="text-align:center;"><p class="fr" style="font-size:3.5rem;color:rgba(140,131,117,.2);">Antes</p><p style="font-size:11px;color:rgba(140,131,117,.3);">Infraestructura años 60s</p></div>
+        <span style="position:absolute;bottom:12px;left:12px;background:rgba(0,0,0,.6);padding:5px 10px;border-radius:4px;font-size:9px;font-weight:600;color:var(--st);">Antes · 2022</span>
+      </div>
+      <div class="ba-panel" id="baAfter" style="clip-path:inset(0 50% 0 0);background:linear-gradient(135deg,#0A0A0A,#1C1C1C);">
+        <div style="text-align:center;"><p class="fr" style="font-size:3.5rem;color:rgba(201,168,76,.3);">Ahora</p><p style="font-size:11px;color:rgba(201,168,76,.4);">Banquetas · Árboles · Adoquín</p></div>
+        <span style="position:absolute;bottom:12px;right:12px;background:rgba(201,168,76,.9);padding:5px 10px;border-radius:4px;font-size:9px;font-weight:700;color:var(--b);">Ahora · 2024</span>
+      </div>
+      <div class="ba-handle-line" id="baLine" style="left:50%;"></div>
+      <div class="ba-handle" id="baHandle" style="left:50%;" onmousedown="sliderStart(event)" ontouchstart="sliderStart(event)">⇔</div>
+      <div style="position:absolute;top:12px;left:50%;transform:translateX(-50%);background:rgba(0,0,0,.5);padding:5px 14px;border-radius:20px;font-size:9px;color:rgba(255,255,255,.5);pointer-events:none;white-space:nowrap;">Arrastra para comparar</div>
+    </div>
+    <div class="ba-highlights">
+      <div class="ba-card reveal"><div class="ba-icon">🚶</div><h4>Banquetas renovadas</h4><p>Amplias, arboladas y con adoquín — diseñadas para caminar.</p></div>
+      <div class="ba-card reveal reveal-delay-1"><div class="ba-icon">💡</div><h4>Cableado soterrado</h4><p>Sin postes aéreos. Cielo despejado en todo el distrito.</p></div>
+      <div class="ba-card reveal reveal-delay-2"><div class="ba-icon">🌳</div><h4>Más áreas verdes</h4><p>Nueva vegetación local en todas las calles intervenidas.</p></div>
+      <div class="ba-card reveal reveal-delay-3"><div class="ba-icon">🔧</div><h4>Infraestructura nueva</h4><p>Agua, drenaje, gas y telecomunicaciones modernizados.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- RUTA DEL CAFÉ -->
+<section id="cafe-route">
+  <div class="container">
+    <div class="section-header reveal">
+      <div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-t">Feature editorial</span></div>
+      <h2>La Ruta del <em style="color:var(--g);">Café</em></h2>
+      <p>5 cafeterías · 2.3 km · El mejor café de San Pedro. Haz clic en cada stop para más información.</p>
+    </div>
+    <div class="reveal">
+      <div class="route-layout">
+        <div class="route-sidebar" id="routeSidebar"></div>
+        <div class="route-map-wrap"><div id="route-map"></div></div>
+      </div>
+      <div class="route-detail" id="routeDetail">
+        <div><p class="route-detail-name" id="rdName">Selecciona un café</p><p class="route-detail-meta" id="rdMeta">Haz clic en la lista o en el mapa</p></div>
+        <div class="route-actions" id="rdActions" style="display:none;">
+          <button class="route-btn" id="rdWa" style="border:1px solid rgba(45,80,22,.4);color:#5a9e2f;background:none;">WhatsApp</button>
+          <button class="route-btn" id="rdMaps" style="border:1px solid rgba(201,168,76,.3);color:var(--g);background:none;">Maps</button>
+          <button class="route-btn" id="rdNext" style="background:var(--g);color:var(--b);border:none;">Siguiente →</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS -->
+<section id="news">
+  <div class="container">
+    <div class="section-header reveal" style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+      <div><div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-t">Noticias</span></div><h2>Lo último <em style="color:var(--g);">del barrio</em></h2></div>
+      <a href="#newsletter" style="font-size:12px;color:var(--g);">Ver todas →</a>
+    </div>
+    <div class="news-featured">
+      <div class="news-card reveal">
+        <div class="news-img" style="background:linear-gradient(135deg,#1a1000,#2a1a00);height:220px;position:relative;">
+          <svg width="36" height="36" viewBox="0 0 32 32" fill="none" opacity=".15"><line x1="16" y1="16" x2="16" y2="2" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="30" y2="2" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="30" y2="16" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="30" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="16" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="2" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="2" y2="16" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="2" y2="2" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+          <span class="badge" style="position:absolute;top:12px;left:12px;background:rgba(201,168,76,.15);color:var(--g);">Nueva apertura</span>
+        </div>
+        <div class="news-body"><p style="font-size:10px;color:var(--st);">20 May 2026</p><p class="news-title">Lampuga: cevichería contemporánea que hay que conocer en el Centrito</p><p class="news-excerpt">Con ceviche de mariscos de temporada y coctelería ligera, Lampuga llega a reforzar la escena gastronómica del barrio.</p></div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <div class="news-card news-card-sm reveal reveal-delay-1">
+          <div class="news-img" style="background:linear-gradient(135deg,#160a0a,#2a0a0a);position:relative;"><span class="badge" style="position:absolute;top:8px;left:8px;background:rgba(193,68,14,.12);color:var(--tr);">Mundial 2026</span></div>
+          <div class="news-body"><p style="font-size:10px;color:var(--st);">15 May 2026</p><p class="news-title">Guía oficial: dónde ver el Mundial en el Centrito</p></div>
+        </div>
+        <div class="news-card news-card-sm reveal reveal-delay-2">
+          <div class="news-img" style="background:linear-gradient(135deg,#001220,#002040);position:relative;"><span class="badge" style="position:absolute;top:8px;left:8px;background:rgba(55,138,221,.12);color:#378ADD;">Ciudad</span></div>
+          <div class="news-body"><p style="font-size:10px;color:var(--st);">10 May 2026</p><p class="news-title">Así va la regeneración del Distrito Centro Valle</p></div>
+        </div>
+        <div class="news-card news-card-sm reveal reveal-delay-3">
+          <div class="news-img" style="background:linear-gradient(135deg,#0a1a00,#142800);position:relative;"><span class="badge" style="position:absolute;top:8px;left:8px;background:rgba(45,80,22,.15);color:#5a9e2f;">Guías</span></div>
+          <div class="news-body"><p style="font-size:10px;color:var(--st);">5 May 2026</p><p class="news-title">Un domingo perfecto en el Centrito: brunch, galería y terraza</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPONSORS -->
+<section id="sponsors" style="background:var(--ink);">
+  <div class="container">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:24px;" class="reveal">
+      <div><p style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--st);margin-bottom:4px;">Patrocinadores</p><h2 class="fr" style="font-size:1.8rem;">Empresas que creen en el barrio</h2></div>
+      <a href="mailto:patrocinadores@centritovalle.mx" class="btn-outline" style="font-size:11px;padding:10px 18px;">Ser patrocinador →</a>
+    </div>
+    <div class="reveal">
+      <p class="sponsor-tier-label">Oro</p>
+      <div class="sponsor-row">
+        <div class="sponsor-slot sponsor-real" style="width:180px;height:60px;">Logo A</div>
+        <div class="sponsor-slot sponsor-real" style="width:180px;height:60px;">Logo B</div>
+        <div class="sponsor-slot sponsor-empty" style="width:180px;height:60px;">+ Tu marca</div>
+      </div>
+      <p class="sponsor-tier-label">Plata · Bronce</p>
+      <div class="sponsor-row">
+        <div class="sponsor-slot" style="width:130px;height:48px;border:1px solid rgba(255,255,255,.1);">Logo C</div>
+        <div class="sponsor-slot" style="width:130px;height:48px;border:1px solid rgba(255,255,255,.1);">Logo D</div>
+        <div class="sponsor-slot" style="width:130px;height:48px;border:1px solid rgba(255,255,255,.1);">Logo E</div>
+        <div class="sponsor-slot" style="width:110px;height:42px;border:1px solid rgba(140,131,117,.15);">Logo F</div>
+        <div class="sponsor-slot" style="width:110px;height:42px;border:1px solid rgba(140,131,117,.15);">Logo G</div>
+        <div class="sponsor-slot sponsor-empty" style="width:110px;height:42px;">+ Tu marca</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWSLETTER -->
+<section id="newsletter">
+  <div class="container">
+    <div class="reveal">
+      <div class="eyebrow" style="justify-content:center;"><div class="eyebrow-line"></div><span class="eyebrow-t">Newsletter</span><div class="eyebrow-line"></div></div>
+      <h2>Lo que pasa en el Centrito,<br><em style="color:var(--g);">directo a tu correo</em></h2>
+      <p style="font-size:13px;color:var(--st);margin:12px auto 24px;max-width:380px;line-height:1.7;">Eventos, aperturas, deals y planes del barrio. Cada semana.</p>
+      <form class="nl-form" onsubmit="handleNL(event)" id="nlForm">
+        <input type="email" placeholder="tu@correo.com" required>
+        <button type="submit" class="btn-gold">Suscribir</button>
+      </form>
+      <p id="nlMsg" style="font-size:12px;color:#5a9e2f;display:none;margin-top:12px;">✓ ¡Ya estás en la lista del Centrito!</p>
+      <p style="font-size:10px;color:rgba(140,131,117,.4);margin-top:14px;">#CentritoValle · Sin spam, solo lo bueno del barrio.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div style="display:flex;align-items:center;gap:10px;">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><line x1="16" y1="16" x2="16" y2="2" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="30" y2="2" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="30" y2="16" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="30" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="16" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="2" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="2" y2="16" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="2" y2="2" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+          <div><div style="font-size:7px;color:rgba(245,242,236,.3);letter-spacing:1.2px;text-transform:uppercase;">Municipio de San Pedro</div><div style="font-size:12px;font-weight:600;color:#fff;letter-spacing:2.5px;text-transform:uppercase;">Distrito Centro Valle</div></div>
+        </div>
+        <p>El corazón de San Pedro Garza García. Gastronomía, arte y comunidad en el barrio más vibrante de Nuevo León.</p>
+      </div>
+      <div>
+        <p class="footer-heading">Explorar</p>
+        <div class="footer-links">
+          <a href="#categories">Directorio</a>
+          <a href="#events">Eventos</a>
+          <a href="#mundial">Mundial 2026</a>
+          <a href="#cafe-route">Ruta del café</a>
+          <a href="#news">Noticias</a>
+          <a href="#before-after">Historia</a>
+        </div>
+      </div>
+      <div>
+        <p class="footer-heading">Contacto</p>
+        <div class="footer-links">
+          <a href="mailto:hola@centritovalle.mx">hola@centritovalle.mx</a>
+          <a href="mailto:patrocinadores@centritovalle.mx">Ser patrocinador</a>
+          <a href="mailto:eventos@centritovalle.mx">Registrar evento</a>
+        </div>
+        <div style="margin-top:16px;padding:12px;border:1px solid rgba(193,68,14,.3);border-radius:8px;background:rgba(193,68,14,.05);">
+          <p style="font-size:9px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--tr);margin-bottom:3px;">Emergencias</p>
+          <p style="font-size:12px;color:var(--st);">Policía San Pedro · 81 8356-0000</p>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Sitio oficial · Municipio de San Pedro Garza García, N.L. · <span style="color:var(--g);">#CentritoValle</span></p>
+      <p>Desarrollado por VITA Studio</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+// ── DATA ──
+const PLACES=[
+  {id:'cafe-bola',name:'Café Bola de Nieve',cat:'Café',catColor:'#C9A84C',desc:'El clásico del Centrito. Cortados perfectos y la mejor terraza.',bg:'linear-gradient(135deg,#1a1000,#2a1a00)',mundial:false,isNew:false,phone:'528183560000',lat:25.6502,lng:-100.3695},
+  {id:'pangea',name:'Pangea',cat:'Restaurante',catColor:'#2D5016',desc:'Alta cocina regiomontana del chef Guillermo González Beristáin.',bg:'linear-gradient(135deg,#001a00,#0a2a0a)',mundial:false,isNew:false,phone:'528182780909',lat:25.6520,lng:-100.3720},
+  {id:'club-centrito',name:'Club Centrito del Valle',cat:'Bar',catColor:'#C1440E',desc:'Pantallas LED gigantes. El mejor spot para ver el Mundial.',bg:'linear-gradient(135deg,#1a0000,#2a0a0a)',mundial:true,isNew:false,phone:'528183000600',lat:25.6500,lng:-100.3690},
+  {id:'lampuga',name:'Lampuga',cat:'Restaurante',catColor:'#2D5016',desc:'Cevichería contemporánea. Nueva apertura del Centrito.',bg:'linear-gradient(135deg,#001220,#002a10)',mundial:false,isNew:true,phone:'528183000400',lat:25.6512,lng:-100.3705},
+  {id:'hanky-panky',name:'Hanky Panky',cat:'Bar',catColor:'#C1440E',desc:'Cocktail bar de autor. Reservaciones recomendadas.',bg:'linear-gradient(135deg,#0a001a,#1a002a)',mundial:false,isNew:false,phone:'528183000500',lat:25.6495,lng:-100.3698},
+  {id:'los-generales',name:'Los Generales',cat:'Bar',catColor:'#C1440E',desc:'Terraza, música en vivo y pantallas para el Mundial.',bg:'linear-gradient(135deg,#1a0a00,#2a1500)',mundial:true,isNew:false,phone:'528183000700',lat:25.6518,lng:-100.3688},
+];
+
+const PROMOS=[
+  {title:'2x1 cortados los lunes',business:'Café Bola de Nieve',cat:'Café',catColor:'#C9A84C',desc:'Presenta este código en la barra. Válido todos los lunes hasta julio.',code:'CENTRITO-CV',expires:'31 Jul 2026'},
+  {title:'Cerveza gratis en goles',business:'Los Generales',cat:'Bar',catColor:'#C1440E',desc:'Una cerveza por cada gol de México. Solo durante el partido.',code:null,expires:'Mundial 2026'},
+  {title:'Brunch dominical -15%',business:'Pangea',cat:'Restaurante',catColor:'#2D5016',desc:'Con reservación previa. Solo los domingos.',code:'DCVBRUNCH',expires:'30 Jun 2026'},
+  {title:'Sello de la Ruta del Café',business:'Onora Coffee',cat:'Café',catColor:'#C9A84C',desc:'5 sellos de la ruta = 1 pour-over gratis.',code:'RUTACAFE',expires:'31 Dic 2026'},
+];
+
+const CAFES=[
+  {id:1,name:'Café Bola de Nieve',address:'Av. Gómez Morín 123',hours:'Lun–Sáb 7:00–20:00',openNow:true,must:'Cortado con leche de avena',tags:['terraza','wifi'],lat:25.6502,lng:-100.3695,phone:'528183560000'},
+  {id:2,name:'Onora Coffee',address:'Río Nilo 215',hours:'Lun–Vie 7:30–19:00',openNow:true,must:'Pour-over Oaxaca Natural',tags:['especialidad'],lat:25.6515,lng:-100.3710,phone:'528183000001'},
+  {id:3,name:'Caffé Luxxe',address:'Av. Roble 660',hours:'Todos los días 7:00–21:00',openNow:true,must:'Latte de lavanda',tags:['terraza','brunch'],lat:25.6488,lng:-100.3682,phone:'528183000002'},
+  {id:4,name:'Lugar de la Mancha',address:'Río Pánuco 340',hours:'Lun–Sáb 8:00–18:00',openNow:false,must:'Espresso tostado oscuro',tags:['bohemio','wifi'],lat:25.6497,lng:-100.3702,phone:'528183000003'},
+  {id:5,name:'Café San Alberto',address:'Calzada del Valle 280',hours:'Lun–Vie 7:00–19:00',openNow:true,must:'Chemex de temporada',tags:['especialidad','terraza'],lat:25.6510,lng:-100.3720,phone:'528183000004'},
+];
+
+// ── RENDER PLACES ──
+document.getElementById('placesGrid').innerHTML=PLACES.map(p=>`
+<div class="place-card">
+  <div class="place-img" style="background:${p.bg};position:relative;">
+    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" opacity=".15"><line x1="16" y1="16" x2="16" y2="2" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="30" y2="2" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="30" y2="16" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="30" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="16" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="2" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="2" y2="16" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="2" y2="2" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+    <div style="position:absolute;top:10px;left:10px;display:flex;gap:5px;">
+      <span class="badge" style="background:${p.catColor}22;color:${p.catColor};border:1px solid ${p.catColor}33;">${p.cat}</span>
+      ${p.isNew?'<span class="badge" style="background:rgba(193,68,14,.15);color:#C1440E;border:1px solid rgba(193,68,14,.25);">Nuevo</span>':''}
+      ${p.mundial?'<span class="badge" style="background:rgba(45,80,22,.2);color:#5a9e2f;border:1px solid rgba(45,80,22,.3);">⚽ Mundial</span>':''}
+    </div>
+  </div>
+  <div class="place-body">
+    <p class="place-name">${p.name}</p>
+    <p class="place-desc">${p.desc}</p>
+    <div class="place-actions">
+      <a href="https://wa.me/${p.phone}" target="_blank" class="place-btn place-btn-wa">WhatsApp</a>
+      <a href="https://maps.google.com/?q=${p.lat},${p.lng}" target="_blank" class="place-btn place-btn-map">Ver mapa</a>
+    </div>
+  </div>
+</div>`).join('');
+
+// ── RENDER PROMOS ──
+document.getElementById('promosGrid').innerHTML=PROMOS.map((p,i)=>`
+<div class="promo-card">
+  <div class="promo-bar" style="background:${p.catColor};"></div>
+  <div class="promo-body">
+    <div class="promo-head">
+      <span class="badge" style="background:${p.catColor}20;color:${p.catColor};">${p.cat}</span>
+      <span class="promo-exp">${p.expires}</span>
+    </div>
+    <p class="promo-title">${p.title}</p>
+    <p style="font-size:9px;color:var(--st);margin-bottom:4px;">${p.business}</p>
+    <p class="promo-desc">${p.desc}</p>
+    ${p.code
+      ?`<button id="pc${i}" onclick="copyPromo('${p.code}','pc${i}')" class="promo-code" style="border:1px dashed ${p.catColor}44;color:${p.catColor};">
+          <span>${p.code}</span><span style="color:var(--st);">Copiar</span>
+        </button>`
+      :`<div style="padding:9px;border:1px solid rgba(193,68,14,.3);border-radius:7px;background:rgba(193,68,14,.08);text-align:center;font-size:10px;font-weight:600;color:var(--tr);">Aplica automáticamente</div>`
+    }
+  </div>
+</div>`).join('');
+
+// ── NAVBAR SCROLL ──
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
+},{ passive:true });
+
+// ── MOBILE MENU ──
+function toggleMobile(){document.getElementById('mobileMenu').classList.toggle('open');}
+function closeMobile(){document.getElementById('mobileMenu').classList.remove('open');}
+
+// ── REVEAL ON SCROLL ──
+const revealObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:.15});
+document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
+
+// ── HERO STAT COUNTERS ──
+function animateNum(id,end,suf,delay){
+  setTimeout(()=>{
+    const el=document.getElementById(id);if(!el)return;
+    const t0=performance.now();
+    const tick=now=>{
+      const p=Math.min((now-t0)/1800,1),e=1-Math.pow(1-p,3);
+      el.textContent=Math.floor(end*e)+suf;
+      if(p<1)requestAnimationFrame(tick);else el.textContent=end+suf;
+    };requestAnimationFrame(tick);
+  },delay);
+}
+setTimeout(()=>{animateNum('hs1',120,'+',0);animateNum('hs2',80,'',150);animateNum('hs3',5,'',300);animateNum('hs4',12,'+',450);},600);
+
+// ── SCROLL-TRIGGERED STAT COUNTERS ──
+const csObs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(!e.isIntersecting||e.target.dataset.done)return;
+    e.target.dataset.done='1';
+    const end=parseInt(e.target.dataset.end),suf=e.target.dataset.suf||'';
+    const t0=performance.now();
+    const tick=now=>{
+      const p=Math.min((now-t0)/1800,1),ev=1-Math.pow(1-p,3);
+      e.target.textContent=Math.floor(end*ev)+suf;
+      if(p<1)requestAnimationFrame(tick);else e.target.textContent=end+suf;
+    };requestAnimationFrame(tick);
+  });
+},{threshold:.4});
+document.querySelectorAll('.cs').forEach(el=>csObs.observe(el));
+
+// ── COUNTDOWN ──
+function updateCD(){
+  const diff=Math.max(0,new Date('2026-06-13T19:00:00-06:00')-new Date());
+  const pad=n=>String(Math.floor(n)).padStart(2,'0');
+  ['cd-d','cd-h','cd-m','cd-s'].forEach((id,i)=>{
+    const v=[diff/86400000,(diff%86400000)/3600000,(diff%3600000)/60000,(diff%60000)/1000][i];
+    const el=document.getElementById(id);if(el)el.textContent=pad(v);
+  });
+}
+updateCD();setInterval(updateCD,1000);
+
+// ── BEFORE/AFTER SLIDER ──
+let slDrag=false;
+function sliderStart(e){slDrag=true;e.preventDefault();}
+document.addEventListener('mouseup',()=>slDrag=false);
+document.addEventListener('touchend',()=>slDrag=false);
+function moveSlider(cx){
+  if(!slDrag)return;
+  const tr=document.getElementById('sliderTrack');if(!tr)return;
+  const r=tr.getBoundingClientRect();
+  const p=Math.min(100,Math.max(0,((cx-r.left)/r.width)*100));
+  document.getElementById('baAfter').style.clipPath=`inset(0 ${100-p}% 0 0)`;
+  document.getElementById('baLine').style.left=p+'%';
+  document.getElementById('baHandle').style.left=p+'%';
+}
+document.addEventListener('mousemove',e=>moveSlider(e.clientX));
+document.addEventListener('touchmove',e=>{if(e.touches[0])moveSlider(e.touches[0].clientX);});
+
+// ── ROUTE MAP ──
+let rMap,rMarkers=[],rActive=null;
+function mkIcon(cafe,active){
+  const bg=active?'#C9A84C':'#0A0A0A',fg=active?'#0A0A0A':'#C9A84C',sz=active?38:32;
+  return L.divIcon({className:'',html:`<div style="width:${sz}px;height:${sz}px;border-radius:50%;background:${bg};color:${fg};border:2px solid ${fg};display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;box-shadow:0 2px 8px rgba(0,0,0,.5);">${cafe.id}</div>`,iconSize:[sz,sz],iconAnchor:[sz/2,sz/2]});
+}
+function selectStop(id){
+  rActive=id;
+  const c=CAFES.find(x=>x.id===id);if(!c)return;
+  rMarkers.forEach((m,i)=>m.setIcon(mkIcon(CAFES[i],CAFES[i].id===id)));
+  rMap.flyTo([c.lat,c.lng],16,{duration:.8});
+  rMarkers[id-1].openPopup();
+  document.querySelectorAll('.route-stop').forEach(el=>el.classList.toggle('active',parseInt(el.dataset.id)===id));
+  document.getElementById('sc'+id)?.scrollIntoView({behavior:'smooth',block:'nearest'});
+  document.getElementById('rdName').textContent=c.name;
+  document.getElementById('rdMeta').textContent=`Stop ${c.id} / ${CAFES.length} · ${c.address} · ${c.openNow?'Abierto ahora':'Cerrado'}`;
+  document.getElementById('rdActions').style.display='flex';
+  document.getElementById('rdWa').onclick=()=>window.open(`https://wa.me/${c.phone}`,'_blank');
+  document.getElementById('rdMaps').onclick=()=>window.open(`https://maps.google.com/?q=${c.lat},${c.lng}`,'_blank');
+  const nx=id<CAFES.length?id+1:1;
+  document.getElementById('rdNext').textContent=id<CAFES.length?`Stop ${nx}: ${CAFES[nx-1].name} →`:'Volver al inicio ↺';
+  document.getElementById('rdNext').onclick=()=>selectStop(nx);
+  document.getElementById('progFill').style.width=(id/CAFES.length*100)+'%';
+  document.getElementById('progText').textContent=`${id} de ${CAFES.length} stops`;
+}
+function initRouteMap(){
+  rMap=L.map('route-map',{zoomControl:true,scrollWheelZoom:false}).setView([25.6502,-100.3702],15);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap',maxZoom:19}).addTo(rMap);
+  L.polyline(CAFES.map(c=>[c.lat,c.lng]),{color:'#C9A84C',weight:2.5,opacity:.7,dashArray:'8 6'}).addTo(rMap);
+  CAFES.forEach((c,i)=>{
+    const m=L.marker([c.lat,c.lng],{icon:mkIcon(c,false)}).addTo(rMap)
+      .bindPopup(`<div style="font-family:'DM Sans',sans-serif;min-width:180px;"><b style="font-family:'Fraunces',serif;">${c.name}</b><br><span style="font-size:11px;color:#555;">📍 ${c.address}</span><br><span style="font-size:11px;color:#555;">🕐 ${c.hours}</span><br><div style="margin-top:6px;padding:5px 8px;background:rgba(201,168,76,.1);border-radius:4px;font-size:11px;color:#A8883A;"><b>Must order:</b> ${c.must}</div></div>`,{maxWidth:220});
+    m.on('click',()=>selectStop(c.id));
+    rMarkers.push(m);
+  });
+  rMap.fitBounds(L.latLngBounds(CAFES.map(c=>[c.lat,c.lng])),{padding:[30,30]});
+  document.getElementById('routeSidebar').innerHTML=CAFES.map(c=>`
+    <div class="route-stop" id="sc${c.id}" data-id="${c.id}" onclick="selectStop(${c.id})">
+      <div class="stop-head">
+        <div class="stop-num">${c.id}</div>
+        <div><p class="stop-name">${c.name}</p><p class="stop-meta">📍 ${c.address}</p></div>
+      </div>
+      <p class="stop-meta">${c.openNow?'<span style="color:#5a9e2f;">● Abierto</span>':'<span style="color:#C1440E;">● Cerrado</span>'} · ${c.hours.split('·')[0].trim()}</p>
+      <div class="stop-must">${c.must}</div>
+    </div>`).join('')
+    +`<div style="padding:14px 18px;border-top:1px solid rgba(201,168,76,.1);">
+        <p style="font-size:9px;color:var(--st);text-transform:uppercase;letter-spacing:.08em;" id="progText">0 de ${CAFES.length} stops</p>
+        <div style="height:3px;background:rgba(201,168,76,.12);border-radius:2px;margin-top:6px;"><div id="progFill" style="height:100%;background:var(--g);border-radius:2px;width:0%;transition:width .4s;"></div></div>
+      </div>`;
+}
+window.addEventListener('load',initRouteMap);
+
+// ── PROMO CODE COPY ──
+function copyPromo(code,btnId){
+  navigator.clipboard.writeText(code).catch(()=>{});
+  const btn=document.getElementById(btnId);if(!btn)return;
+  const sp=btn.querySelector('span:last-child');
+  if(sp){sp.textContent='✓ Copiado';sp.style.color='#2D5016';}
+  setTimeout(()=>{if(sp){sp.textContent='Copiar';sp.style.color='var(--st)';}},2000);
+}
+
+// ── NEWSLETTER ──
+function handleNL(e){
+  e.preventDefault();
+  document.getElementById('nlForm').style.display='none';
+  document.getElementById('nlMsg').style.display='block';
+}
+</script>
+</body>
+</html>
