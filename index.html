@@ -184,10 +184,10 @@ section{padding:80px 0;border-top:1px solid var(--border);}
 #before-after .section-header p{color:var(--st);}
 .before-after-container{display:flex;flex-direction:column;gap:24px;}
 .before-after-slider{position:relative;height:400px;border-radius:14px;overflow:hidden;cursor:col-resize;user-select:none;border:1px solid rgba(140,131,117,.2);}
-.before-after-image{position:absolute;inset:0;width:100%;height:100%;overflow:hidden;}
+.before-after-image{position:absolute;inset:0;width:100%;height:100%;}
 .before-after-image img{width:100%;height:100%;object-fit:cover;display:block;}
-.before-after-image.before{clip-path:inset(0 50% 0 0);transition:clip-path .1s ease-out;z-index:2;}
-.before-after-image.after{clip-path:inset(0 0 0 50%);z-index:1;}
+.before-after-image.before{clip-path:inset(0 100% 0 0);transition:clip-path .1s ease-out;z-index:2;}
+.before-after-image.after{z-index:1;}
 .before-label, .after-label{position:absolute;bottom:16px;padding:8px 12px;border-radius:6px;font-size:12px;font-weight:600;z-index:10;}
 .before-label{left:16px;background:rgba(0,0,0,.8);color:var(--st);font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
 .after-label{right:16px;background:rgba(201,168,76,.95);color:var(--b);font-weight:700;text-transform:uppercase;letter-spacing:.5px;}
