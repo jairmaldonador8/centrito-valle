@@ -60,12 +60,13 @@ section{padding:80px 0;border-top:1px solid var(--border);}
 .section-header{margin-bottom:40px;}
 .section-header h2{font-family:'Fraunces',serif;font-size:clamp(2rem,4vw,3.2rem);line-height:.95;}
 .section-header p{font-size:13px;color:var(--st);margin-top:10px;max-width:480px;line-height:1.7;}
-.btn-gold{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--g);color:var(--b);border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:background .2s;}
-.btn-gold:hover{background:var(--gd);}
-.btn-outline{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border:1px solid rgba(201,168,76,.3);color:rgba(245,242,236,.7);background:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .2s;}
-.btn-outline:hover{border-color:var(--g);color:var(--w);}
-.btn-terra{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border:1px solid rgba(193,68,14,.5);color:var(--tr);background:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .2s;}
-.btn-terra:hover{background:rgba(193,68,14,.1);}
+.btn-gold{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;background:var(--g);color:var(--b);border:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);transform:translateY(0);}
+.btn-gold:hover{background:var(--gd);transform:translateY(-2px);box-shadow:0 8px 16px rgba(201,168,76,.25);}
+.btn-gold:active{transform:translateY(0);}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border:1px solid rgba(201,168,76,.3);color:rgba(245,242,236,.7);background:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);}
+.btn-outline:hover{border-color:var(--g);color:var(--w);background:rgba(201,168,76,.05);}
+.btn-terra{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border:1px solid rgba(193,68,14,.5);color:var(--tr);background:none;border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);}
+.btn-terra:hover{background:rgba(193,68,14,.15);border-color:var(--tr);transform:scale(1.02);}
 .badge{font-size:10px;font-weight:600;padding:3px 9px;border-radius:4px;display:inline-block;}
 
 /* ── HERO ── */
@@ -97,7 +98,8 @@ section{padding:80px 0;border-top:1px solid var(--border);}
 /* ── CATEGORIES ── */
 #categories{background:var(--b);}
 .cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px;}
-.cat-card{border:1px solid rgba(201,168,76,.14);border-radius:12px;padding:22px 14px;text-align:center;background:rgba(28,28,28,.5);cursor:pointer;transition:all .25s;display:flex;flex-direction:column;align-items:center;gap:8px;}
+.cat-card{border:1px solid rgba(201,168,76,.14);border-radius:12px;padding:22px 14px;text-align:center;background:rgba(28,28,28,.5);cursor:pointer;transition:all .3s cubic-bezier(.34,1.56,.64,1);display:flex;flex-direction:column;align-items:center;gap:8px;transform:scale(1);}
+.cat-card:hover{transform:scale(1.05);border-color:var(--g);background:rgba(28,28,28,.8);box-shadow:0 12px 24px rgba(201,168,76,.15);}
 .cat-card:hover{border-color:rgba(201,168,76,.5);background:var(--ink);}
 .cat-icon{width:52px;height:52px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;transition:transform .3s;}
 .cat-card:hover .cat-icon{transform:scale(1.12);}
@@ -499,23 +501,35 @@ footer{background:var(--ink);border-top:1px solid var(--border);padding:60px 0 2
             <h2 class="fr" style="font-size:clamp(1.8rem,4vw,3rem);line-height:.95;color:var(--w);">Vive el Mundial<br><em style="color:var(--g);">en el Centrito</em></h2>
           </div>
         </div>
-        <p style="font-size:13px;font-weight:300;color:var(--st);max-width:340px;line-height:1.75;margin-bottom:20px;">12 venues con pantallas LED, menús especiales y el mejor ambiente de San Pedro.</p>
-        <div class="mundial-stats">
-          <div class="mundial-stat"><p class="fr">12+</p><p>Venues</p></div>
-          <div class="mundial-stat"><p class="fr">500+</p><p>Asientos</p></div>
-          <div class="mundial-stat"><p class="fr">3</p><p>Partidos MX</p></div>
+        <p style="font-size:13px;font-weight:300;color:var(--st);max-width:340px;line-height:1.75;margin-bottom:20px;">México juega 3 partidos en junio. Centrito Valle será el epicentro de celebración de San Pedro con watch parties, promociones especiales y el mejor ambiente.</p>
+        <div class="mundial-matches-row" style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:24px;">
+          <div style="border:1px solid rgba(45,80,22,.3);border-radius:8px;padding:12px;background:rgba(45,80,22,.05);">
+            <p style="font-size:10px;font-weight:600;color:var(--gr);text-transform:uppercase;">🇲🇽 vs 🇿🇦</p>
+            <p style="font-size:12px;font-weight:600;color:var(--w);margin:6px 0;">11 Junio</p>
+            <p style="font-size:11px;color:var(--st);">13:00 hrs<br>Estadio Azteca</p>
+          </div>
+          <div style="border:1px solid rgba(45,80,22,.3);border-radius:8px;padding:12px;background:rgba(45,80,22,.05);">
+            <p style="font-size:10px;font-weight:600;color:var(--gr);text-transform:uppercase;">🇲🇽 vs 🇰🇷</p>
+            <p style="font-size:12px;font-weight:600;color:var(--w);margin:6px 0;">18 Junio</p>
+            <p style="font-size:11px;color:var(--st);">19:00 hrs<br>Guadalajara</p>
+          </div>
+          <div style="border:1px solid rgba(45,80,22,.3);border-radius:8px;padding:12px;background:rgba(45,80,22,.05);">
+            <p style="font-size:10px;font-weight:600;color:var(--gr);text-transform:uppercase;">🇲🇽 vs 🇨🇿</p>
+            <p style="font-size:12px;font-weight:600;color:var(--w);margin:6px 0;">24 Junio</p>
+            <p style="font-size:11px;color:var(--st);">19:00 hrs<br>Estadio Azteca</p>
+          </div>
         </div>
-        <div style="margin-top:20px;display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px;">
-          <span style="padding:5px 12px;border:1px solid rgba(45,80,22,.4);border-radius:20px;font-size:11px;color:var(--gr);">Club Centrito del Valle</span>
-          <span style="padding:5px 12px;border:1px solid rgba(45,80,22,.4);border-radius:20px;font-size:11px;color:var(--gr);">Los Generales</span>
-          <span style="padding:5px 12px;border:1px solid rgba(45,80,22,.4);border-radius:20px;font-size:11px;color:var(--gr);">Olio</span>
-          <span style="padding:5px 12px;border:1px solid rgba(45,80,22,.4);border-radius:20px;font-size:11px;color:var(--gr);">Havre 77</span>
+        <div style="background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:8px;padding:14px;margin-bottom:20px;">
+          <p style="font-size:10px;font-weight:600;color:var(--g);text-transform:uppercase;margin-bottom:8px;">🎉 Watch Parties en Centrito</p>
+          <p style="font-size:12px;color:var(--w);margin:4px 0;">✓ Pantallas LED en bares y restaurantes</p>
+          <p style="font-size:12px;color:var(--w);margin:4px 0;">✓ Promociones especiales durante partidos</p>
+          <p style="font-size:12px;color:var(--w);margin:4px 0;">✓ Street parties en espacios públicos del Centrito</p>
         </div>
         <a href="#newsletter" class="btn-terra" style="background:var(--tr);color:white;border:none;border-radius:8px;display:inline-flex;align-items:center;gap:8px;padding:13px 28px;font-size:12px;font-weight:600;">Ver guía completa →</a>
       </div>
       <div class="countdown-box reveal reveal-delay-2">
         <p style="font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gr);">🇲🇽 Próximo partido</p>
-        <p class="fr" style="font-size:1.4rem;color:var(--w);margin:8px 0;">México vs. Por definir</p>
+        <p class="fr" style="font-size:1.4rem;color:var(--w);margin:8px 0;">México vs Sudáfrica</p>
         <div class="cd-grid">
           <div class="cd-unit"><p class="cd-num" id="cd-d">00</p><p class="cd-label">días</p></div>
           <span class="cd-sep">:</span>
@@ -525,8 +539,8 @@ footer{background:var(--ink);border-top:1px solid var(--border);padding:60px 0 2
           <span class="cd-sep">:</span>
           <div class="cd-unit"><p class="cd-num" id="cd-s">00</p><p class="cd-label">seg</p></div>
         </div>
-        <p style="font-size:10px;color:var(--st);">📍 SoFi Stadium · Los Ángeles, CA</p>
-        <a href="#places" style="display:inline-block;margin-top:16px;padding:9px 20px;border:1px solid rgba(45,80,22,.5);border-radius:8px;font-size:10px;font-weight:600;color:var(--gr);transition:all .2s;">Ver venues con pantalla →</a>
+        <p style="font-size:10px;color:var(--st);">📍 Estadio Azteca · Ciudad de México<br>⏰ 11 Junio · 13:00 hrs<br>🎫 PARTIDO INAUGURAL</p>
+        <a href="#places" style="display:inline-block;margin-top:16px;padding:9px 20px;border:1px solid rgba(45,80,22,.5);border-radius:8px;font-size:10px;font-weight:600;color:var(--gr);transition:all .2s;">Ver venues en Centrito →</a>
       </div>
     </div>
   </div>
