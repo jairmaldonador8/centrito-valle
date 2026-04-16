@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(rm -rf /c/Users/bykai/OneDrive/Desktop/centrito-valle)",
+      "Bash(rm -rf /c/Users/bykai/OneDrive/Desktop/centrito-valle-github)",
+      "Bash(code:*)",
+      "Bash(start http://localhost:8000/index.html)"
+    ]
+  }
+}
