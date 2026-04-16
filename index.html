@@ -221,6 +221,58 @@ section.reveal::before{animation:dividerFade 1.2s ease-out 0.4s forwards;}
 .event-date-m{font-size:9px;text-transform:uppercase;letter-spacing:.06em;color:var(--st);}
 .event-title{font-size:13px;font-weight:600;color:var(--w);line-height:1.3;margin:5px 0 4px;letter-spacing:0px;}
 .event-meta{font-size:10px;color:var(--st);font-weight:300;letter-spacing:.1px;}
+.featured-event{position:relative;border-radius:16px;overflow:hidden;min-height:560px;display:flex;flex-direction:column;justify-content:flex-end;margin-bottom:48px;}
+.featured-event-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 8s ease;}
+.featured-event:hover .featured-event-bg{transform:scale(1.04);}
+.featured-event::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,0.95) 0%,rgba(0,0,0,0.55) 55%,rgba(0,0,0,0.1) 100%);}
+.featured-event-content{position:relative;z-index:2;padding:40px;}
+.fe-organizers{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.fe-org-badge{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:5px 12px;border:1px solid rgba(201,168,76,.4);color:var(--g);border-radius:4px;}
+.fe-date-badge{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,0.6);}
+.fe-title{font-family:'DM Sans',sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:300;letter-spacing:-0.02em;color:#fff;line-height:1.1;margin-bottom:24px;}
+.fe-timeline{display:flex;flex-direction:column;gap:12px;margin-bottom:28px;}
+.fe-step{display:flex;align-items:center;gap:14px;padding:12px 16px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;backdrop-filter:blur(4px);transition:background 0.3s;}
+.fe-step:hover{background:rgba(201,168,76,0.12);border-color:rgba(201,168,76,0.3);}
+.fe-step-icon{font-size:20px;width:36px;text-align:center;flex-shrink:0;}
+.fe-step-time{font-size:10px;color:var(--g);font-weight:700;letter-spacing:.08em;text-transform:uppercase;min-width:52px;}
+.fe-step-name{font-size:13px;font-weight:600;color:#fff;line-height:1.2;}
+.fe-step-place{font-size:11px;color:rgba(255,255,255,0.5);}
+.fe-stats{display:flex;gap:24px;margin-bottom:28px;flex-wrap:wrap;}
+.fe-stat{display:flex;flex-direction:column;gap:2px;}
+.fe-stat-val{font-size:18px;font-weight:300;color:#fff;}
+.fe-stat-lbl{font-size:9px;text-transform:uppercase;letter-spacing:.12em;color:rgba(255,255,255,0.4);}
+.fe-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+.btn-registro{padding:14px 28px;background:var(--g);color:#000;border:none;border-radius:4px;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:all 0.3s;}
+.btn-registro:hover{background:#d4b255;transform:translateY(-2px);box-shadow:0 8px 20px rgba(201,168,76,0.35);}
+.btn-registro:active{transform:translateY(0);}
+.fe-share{font-size:11px;color:rgba(255,255,255,0.4);letter-spacing:.06em;cursor:pointer;transition:color 0.3s;}
+.fe-share:hover{color:var(--g);}
+.registro-form-wrap{display:none;margin-top:20px;padding:28px;background:rgba(255,255,255,0.05);border:1px solid rgba(201,168,76,0.2);border-radius:12px;backdrop-filter:blur(8px);}
+.registro-form-wrap.open{display:block;animation:formReveal 0.4s ease forwards;}
+@keyframes formReveal{from{opacity:0;transform:translateY(-10px);}to{opacity:1;transform:translateY(0);}}
+.registro-form-title{font-size:14px;font-weight:600;color:#fff;margin-bottom:20px;letter-spacing:.02em;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+@media(max-width:600px){.form-row{grid-template-columns:1fr;}}
+.form-field{display:flex;flex-direction:column;gap:6px;}
+.form-field label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,0.5);}
+.form-field input,.form-field select{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:11px 14px;font-size:13px;color:#fff;font-family:'DM Sans',sans-serif;transition:border-color 0.3s;outline:none;}
+.form-field input:focus,.form-field select:focus{border-color:rgba(201,168,76,0.6);}
+.form-field select option{background:#1a1a1a;color:#fff;}
+.form-checks{display:flex;flex-wrap:wrap;gap:8px;}
+.form-check-label{display:flex;align-items:center;gap:6px;font-size:11px;color:rgba(255,255,255,0.6);cursor:pointer;padding:6px 12px;border:1px solid rgba(255,255,255,0.1);border-radius:20px;transition:all 0.25s;}
+.form-check-label:hover{border-color:rgba(201,168,76,0.4);color:var(--g);}
+.form-check-label input[type="checkbox"]{display:none;}
+.form-check-label.checked{background:rgba(201,168,76,0.15);border-color:rgba(201,168,76,0.5);color:var(--g);}
+.form-notif-row{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);border-radius:8px;margin-bottom:18px;}
+.form-notif-text{font-size:12px;color:rgba(255,255,255,0.6);max-width:300px;line-height:1.4;}
+.toggle-switch{position:relative;width:40px;height:22px;flex-shrink:0;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.toggle-slider{position:absolute;inset:0;background:rgba(255,255,255,0.15);border-radius:22px;cursor:pointer;transition:background 0.3s;}
+.toggle-slider::before{content:'';position:absolute;width:16px;height:16px;border-radius:50%;background:#fff;left:3px;top:3px;transition:transform 0.3s;}
+.toggle-switch input:checked+.toggle-slider{background:var(--g);}
+.toggle-switch input:checked+.toggle-slider::before{transform:translateX(18px);}
+.form-submit-row{display:flex;align-items:center;gap:12px;}
+#registroMsg{font-size:12px;color:#5a9e2f;display:none;}
 
 /* ── MUNDIAL ── */
 #mundial{background:#000000;position:relative;overflow:hidden;border-top:2px solid rgba(212,175,55,.3);}
@@ -659,17 +711,81 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   </div>
 </section>
 
-<!-- EVENTS -->
+<!-- EVENTS — Evento Destacado & Próximos -->
 <section id="events">
   <div class="container">
     <div class="section-header reveal" style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:12px;">
-      <div><div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-t">Agenda</span></div><h2>¿Qué hay <em style="color:var(--g);">esta semana?</em></h2></div>
-      <a href="#newsletter" style="font-size:12px;color:var(--g);">Ver todos →</a>
+      <div><div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-t">Agenda</span></div><h2>Eventos en el <em style="color:var(--g);">Centrito</em></h2></div>
     </div>
+    <div class="featured-event reveal">
+      <div class="featured-event-bg" style="background-image:url('https://images.unsplash.com/photo-1476480862126-209bfaa8edc8?w=1200&h=700&fit=crop&q=90&auto=format');"></div>
+      <div class="featured-event-content">
+        <div class="fe-organizers">
+          <span class="fe-org-badge">VITA Studio</span>
+          <span class="fe-org-badge">× Santosha</span>
+          <span class="fe-date-badge">· Dom 22 Jun · 7:00 AM</span>
+        </div>
+        <h3 class="fe-title">Mañana Activa<br>en el Centrito</h3>
+        <div class="fe-timeline">
+          <div class="fe-step">
+            <span class="fe-step-icon">🏃</span>
+            <span class="fe-step-time">7:00 AM</span>
+            <div><div class="fe-step-name">5K Running por Calzada</div><div class="fe-step-place">📍 Salida: Entrada Centrito Valle</div></div>
+          </div>
+          <div class="fe-step">
+            <span class="fe-step-icon">🧘</span>
+            <span class="fe-step-time">8:30 AM</span>
+            <div><div class="fe-step-name">Sesión de Yoga al Aire Libre</div><div class="fe-step-place">📍 Parque Mississippi</div></div>
+          </div>
+          <div class="fe-step">
+            <span class="fe-step-icon">☕</span>
+            <span class="fe-step-time">10:00 AM</span>
+            <div><div class="fe-step-name">Activación con Cafeterías Locales</div><div class="fe-step-place">📍 Plaza del Centrito · Comando Café, Maut y más</div></div>
+          </div>
+        </div>
+        <div class="fe-stats">
+          <div class="fe-stat"><span class="fe-stat-val">200</span><span class="fe-stat-lbl">Lugares</span></div>
+          <div class="fe-stat"><span class="fe-stat-val">Gratis</span><span class="fe-stat-lbl">Entrada</span></div>
+          <div class="fe-stat"><span class="fe-stat-val">Todos</span><span class="fe-stat-lbl">Nivel</span></div>
+          <div class="fe-stat"><span class="fe-stat-val">3 hrs</span><span class="fe-stat-lbl">Duración</span></div>
+        </div>
+        <div class="fe-actions">
+          <button class="btn-registro" id="btnRegistro" onclick="toggleRegistro()">Registrarse →</button>
+          <span class="fe-share" onclick="shareEvento()">↗ Compartir</span>
+        </div>
+        <div class="registro-form-wrap" id="registroForm">
+          <p class="registro-form-title">Confirma tu lugar · Mañana Activa en el Centrito</p>
+          <div class="form-row">
+            <div class="form-field"><label>Nombre completo</label><input type="text" placeholder="Tu nombre" id="reg-nombre"></div>
+            <div class="form-field"><label>Email</label><input type="email" placeholder="tu@correo.com" id="reg-email"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-field"><label>Asistentes</label><select id="reg-asistentes"><option>1 persona</option><option>2 personas</option><option>3 personas</option><option>4 personas</option><option>5+ personas</option></select></div>
+            <div class="form-field" style="grid-column:1/3;"><label>¿Qué te interesa?</label>
+              <div class="form-checks">
+                <label class="form-check-label" onclick="toggleCheck(this)"><input type="checkbox"> 🏃 5K Running</label>
+                <label class="form-check-label" onclick="toggleCheck(this)"><input type="checkbox"> 🧘 Yoga</label>
+                <label class="form-check-label" onclick="toggleCheck(this)"><input type="checkbox"> ☕ Cafeterías</label>
+                <label class="form-check-label" onclick="toggleCheck(this)"><input type="checkbox"> Todo</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-notif-row">
+            <span class="form-notif-text">Quiero recibir notificaciones de este y futuros eventos del Centrito</span>
+            <label class="toggle-switch"><input type="checkbox" id="reg-notif" checked><span class="toggle-slider"></span></label>
+          </div>
+          <div class="form-submit-row">
+            <button class="btn-registro" onclick="handleRegistro()">Confirmar lugar ✓</button>
+            <span id="registroMsg">✓ ¡Estás registrado! Te confirmamos por email.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section-header" style="margin-bottom:20px;"><p style="font-size:11px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--st);">Más eventos próximos</p></div>
     <div class="events-grid">
       <div class="event-card reveal">
-        <div class="event-date" style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);"><span class="event-date-n fr" style="color:var(--g);">6</span><span class="event-date-m">Jun</span></div>
-        <div><span class="badge" style="background:rgba(201,168,76,.12);color:var(--g);margin-bottom:5px;">Mercado</span><p class="event-title">Mercado Artesanal del Centrito</p><p class="event-meta">📍 Plaza Principal · 9:00 hrs</p></div>
+        <div class="event-date" style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);"><span class="event-date-n fr" style="color:var(--g);">22</span><span class="event-date-m">Jun</span></div>
+        <div><span class="badge" style="background:rgba(201,168,76,.12);color:var(--g);margin-bottom:5px;">🏃 Running</span><p class="event-title">Mañana Activa — 5K + Yoga + Café</p><p class="event-meta">📍 Centrito Valle · 7:00 hrs</p></div>
       </div>
       <div class="event-card reveal reveal-delay-1">
         <div class="event-date" style="background:rgba(193,68,14,.1);border:1px solid rgba(193,68,14,.2);"><span class="event-date-n fr" style="color:var(--tr);">13</span><span class="event-date-m">Jun</span></div>
@@ -680,8 +796,8 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
         <div><span class="badge" style="background:rgba(127,119,221,.12);color:#7F77DD;margin-bottom:5px;">Música</span><p class="event-title">Noche de Jazz en el Centrito</p><p class="event-meta">📍 Hanky Panky · 20:30 hrs</p></div>
       </div>
       <div class="event-card reveal reveal-delay-3">
-        <div class="event-date" style="background:rgba(212,83,126,.1);border:1px solid rgba(212,83,126,.2);"><span class="event-date-n fr" style="color:#D4537E;">20</span><span class="event-date-m">Jun</span></div>
-        <div><span class="badge" style="background:rgba(212,83,126,.12);color:#D4537E;margin-bottom:5px;">Arte</span><p class="event-title">Pop-up de Arte Local</p><p class="event-meta">📍 Paseo Díaz Ordaz · 11:00 hrs</p></div>
+        <div class="event-date" style="background:rgba(212,83,126,.1);border:1px solid rgba(212,83,126,.2);"><span class="event-date-n fr" style="color:#D4537E;">29</span><span class="event-date-m">Jun</span></div>
+        <div><span class="badge" style="background:rgba(212,83,126,.12);color:#D4537E;margin-bottom:5px;">Mercado</span><p class="event-title">Mercado Nocturno del Centrito</p><p class="event-meta">📍 Paseo Díaz Ordaz · 18:00 hrs</p></div>
       </div>
     </div>
   </div>
@@ -1422,6 +1538,38 @@ function handleNL(e){
   e.preventDefault();
   document.getElementById('nlForm').style.display='none';
   document.getElementById('nlMsg').style.display='block';
+}
+
+// ── REGISTRO EVENTO ──
+function toggleRegistro(){
+  const form=document.getElementById('registroForm');
+  const btn=document.getElementById('btnRegistro');
+  form.classList.toggle('open');
+  btn.textContent = form.classList.contains('open') ? 'Cancelar ✕' : 'Registrarse →';
+}
+
+function toggleCheck(label){
+  label.classList.toggle('checked');
+  const cb=label.querySelector('input[type="checkbox"]');
+  if(cb)cb.checked=label.classList.contains('checked');
+}
+
+function handleRegistro(){
+  const nombre=document.getElementById('reg-nombre').value.trim();
+  const email=document.getElementById('reg-email').value.trim();
+  if(!nombre||!email){alert('Por favor completa nombre y email.');return;}
+  document.getElementById('registroMsg').style.display='inline';
+  document.getElementById('btnRegistro').style.display='none';
+  setTimeout(()=>{toggleRegistro();document.getElementById('registroMsg').style.display='none';document.getElementById('btnRegistro').style.display='inline-flex';document.getElementById('reg-nombre').value='';document.getElementById('reg-email').value='';},2000);
+}
+
+function shareEvento(){
+  if(navigator.share){
+    navigator.share({title:'Mañana Activa en el Centrito',text:'5K + Yoga + Cafeterías · Dom 22 Jun 7AM · Centrito Valle',url:window.location.href});
+  }else{
+    navigator.clipboard.writeText(window.location.href);
+    alert('✓ Enlace copiado al portapapeles');
+  }
 }
 </script>
 </body>
