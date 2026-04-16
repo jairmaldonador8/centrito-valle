@@ -180,28 +180,33 @@ section.reveal::before{animation:dividerFade 1.2s ease-out 0.4s forwards;}
 #noticias-relevantes{background:#000000;border-top:2px solid rgba(212,175,55,.3);}
 @keyframes imgZoomIn{from{transform:scale(1.1) translateY(-10px);opacity:0;filter:blur(8px);}to{transform:scale(1) translateY(0);opacity:1;filter:blur(0);}}
 @keyframes imgZoomOut{from{transform:scale(1);opacity:1;filter:blur(0);}to{transform:scale(0.95);opacity:0;filter:blur(6px);}}
-@keyframes cardSlideIn{from{opacity:0;transform:scale(0.85) translateX(100px) rotateY(25deg);}to{opacity:1;transform:scale(1) translateX(0) rotateY(0deg);}}
-@keyframes cardSlideOut{from{opacity:1;transform:scale(1) translateX(0) rotateY(-25deg);}to{opacity:0;transform:scale(0.85) translateX(-100px) rotateY(0deg);}}
+@keyframes slideFromRight{from{opacity:0;transform:scale(0.9) translateX(60px);}to{opacity:1;transform:scale(1) translateX(0);}}
+@keyframes slideFromLeft{from{opacity:0;transform:scale(0.9) translateX(-60px);}to{opacity:1;transform:scale(1) translateX(0);}}
+@keyframes slideToLeft{from{opacity:1;transform:scale(1) translateX(0);}to{opacity:0;transform:scale(0.9) translateX(-60px);}}
+@keyframes slideToRight{from{opacity:1;transform:scale(1) translateX(0);}to{opacity:0;transform:scale(0.9) translateX(60px);}}
+@keyframes cardSlideIn{from{opacity:0;transform:scale(0.85) translateX(100px);}to{opacity:1;transform:scale(1) translateX(0);}}
+@keyframes cardSlideOut{from{opacity:1;transform:scale(1) translateX(0);}to{opacity:0;transform:scale(0.85) translateX(-100px);}}
 
 .noticias-grid{position:relative;height:500px;max-width:900px;margin:0 auto;perspective:1200px;}
-.noticia-card{position:absolute;inset:0;border:1px solid var(--border);border-radius:12px;padding:32px;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;opacity:0;pointer-events:none;transform:scale(0.85) translateX(100px) rotateY(25deg);z-index:0;transition:all 0.8s cubic-bezier(0.34,1.56,0.64,1);background-attachment:fixed;will-change:transform,opacity;contain:layout style paint;}
-.noticia-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg, transparent 0%, rgba(0,0,0,0.8) 100%);opacity:1;z-index:1;border-radius:12px;transition:all 0.8s ease;}
+.noticia-card{position:absolute;inset:0;border:1px solid var(--border);border-radius:12px;padding:32px;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;opacity:0;pointer-events:none;transform:scale(0.85) translateX(100px) rotateY(25deg);z-index:0;transition:all 0.8s cubic-bezier(0.34,1.56,0.64,1);will-change:transform,opacity;}
+.noticia-card::before{content:'';position:absolute;inset:0;background:linear-gradient(to top, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.5) 50%, rgba(0,0,0,0.1) 100%);opacity:1;z-index:1;border-radius:12px;transition:all 0.8s ease;}
 .noticia-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%, rgba(201,168,76,0.2), transparent 70%);opacity:0;transition:opacity 0.8s cubic-bezier(0.34,1.56,0.64,1);z-index:1;border-radius:12px;pointer-events:none;}
-.noticia-card.active{opacity:1;pointer-events:auto;transform:scale(1) translateX(0) rotateY(0deg);z-index:10;animation:cardSlideIn 0.8s cubic-bezier(0.34,1.56,0.64,1) forwards;}
-.noticia-card.active::before{background:linear-gradient(135deg, transparent 0%, rgba(0,0,0,0.7) 100%);}
-.noticia-card.prev{opacity:0;transform:scale(0.85) translateX(-100px) rotateY(-25deg);z-index:5;animation:cardSlideOut 0.8s cubic-bezier(0.34,1.56,0.64,1) forwards;}
+.noticia-card.active{opacity:1;pointer-events:auto;transform:scale(1) translateX(0) rotateY(0deg);z-index:10;animation:slideFromRight 0.8s cubic-bezier(0.34,1.56,0.64,1) forwards;}
+.noticia-card.active::before{background:linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.4) 50%, rgba(0,0,0,0.05) 100%);}
+.noticia-card.prev{opacity:0;transform:scale(0.85) translateX(-100px) rotateY(-25deg);z-index:5;animation:slideToLeft 0.8s cubic-bezier(0.34,1.56,0.64,1) forwards;}
+.noticia-card.next{opacity:0;transform:scale(0.85) translateX(100px) rotateY(25deg);z-index:2;}
 .noticia-card:hover::after{opacity:1;}
-.noticia-card.active {background-attachment:scroll;}
 .noticia-badge{font-size:11px;font-weight:800;padding:8px 14px;border-radius:8px;display:inline-block;width:fit-content;letter-spacing:.06em;text-transform:uppercase;position:relative;z-index:3;margin-bottom:16px;}
-.noticia-titulo{font-family:'DM Sans',sans-serif;font-size:clamp(1.6rem,4vw,2.2rem);color:var(--w);margin:0;line-height:1.2;font-weight:700;letter-spacing:-.2px;position:relative;z-index:3;margin-bottom:12px;}
-.noticia-desc{font-size:14px;color:rgba(255,255,255,0.9);line-height:1.6;position:relative;z-index:3;margin-bottom:12px;}
-.noticia-meta{font-size:12px;color:rgba(200,200,200,0.7);position:relative;z-index:3;}
+.noticia-titulo{font-family:'DM Sans',sans-serif;font-size:clamp(1.6rem,4vw,2.2rem);color:var(--w);margin:0;line-height:1.2;font-weight:300;letter-spacing:-0.01em;position:relative;z-index:3;margin-bottom:12px;}
+.noticia-desc{font-size:13px;color:rgba(245,242,236,.7);line-height:1.6;margin:0;font-weight:300;letter-spacing:.2px;position:relative;z-index:3;}
+.noticia-meta{font-size:10px;color:var(--st);text-transform:uppercase;letter-spacing:.08em;margin-top:auto;font-weight:500;position:relative;z-index:3;}
 .noticias-nav{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:28px;}
-.noticias-btn{width:44px;height:44px;border-radius:50%;border:2px solid var(--g);background:transparent;color:var(--g);cursor:pointer;font-size:18px;font-weight:700;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);display:flex;align-items:center;justify-content:center;}
-.noticias-btn:hover{background:var(--g);color:var(--b);transform:scale(1.1);}
+.noticias-btn{width:52px;height:52px;border-radius:50%;border:1px solid rgba(201,168,76,0.4);background:rgba(201,168,76,0.08);backdrop-filter:blur(8px);color:var(--g);cursor:pointer;font-size:20px;font-weight:700;transition:all 0.3s ease;display:flex;align-items:center;justify-content:center;}
+.noticias-btn:hover{background:var(--g);color:#000;border-color:var(--g);transform:scale(1.08);}
+.noticias-btn:active{transform:scale(0.95);}
 .noticias-counter{font-size:12px;color:var(--st);font-weight:600;letter-spacing:.08em;text-transform:uppercase;min-width:80px;text-align:center;}
-.noticia-desc{font-size:13px;color:rgba(245,242,236,.7);line-height:1.6;margin:0;font-weight:300;letter-spacing:.2px;}
-.noticia-meta{font-size:10px;color:var(--st);text-transform:uppercase;letter-spacing:.08em;margin-top:auto;font-weight:500;}
+.noticias-progress{width:200px;height:2px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;margin-top:20px;}
+.noticias-progress-bar{height:100%;background:var(--g);transition:width 0.6s cubic-bezier(0.34,1.56,0.64,1);}
 
 /* ── EVENTS ── */
 #events{background:var(--b);}
@@ -606,37 +611,37 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <h2>Noticias del <em style="color:var(--g);">Centrito</em></h2>
     </div>
     <div class="noticias-grid">
-      <div class="noticia-card active" style="background-image:url('https://images.unsplash.com/photo-1449844908441-8829872d2607?w=800&h=600&fit=crop&auto=format');">
+      <div class="noticia-card active" style="background-image:url('https://images.unsplash.com/photo-1486325212027-8081e485255e?w=800&h=600&fit=crop&q=90&auto=format');">
         <div class="noticia-badge" style="background:rgba(212,175,55,.2);color:var(--g);">🚀 Revitalización</div>
         <h3 class="noticia-titulo">700 Millones en Transformación Urbana</h3>
         <p class="noticia-desc">El Centrito Valle está viviendo su mayor transformación con inversión en infraestructura moderna, 400 árboles nativos plantados y espacios públicos renovados.</p>
         <div class="noticia-meta">Proyecto Distrito Centro Valle · 2024-2026</div>
       </div>
-      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1442512595331-e89e30ea369e?w=800&h=600&fit=crop&auto=format');">
+      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&h=600&fit=crop&q=90&auto=format');">
         <div class="noticia-badge" style="background:rgba(45,122,62,.2);color:#5a9e2f;">☕ Nuevos Cafés</div>
         <h3 class="noticia-titulo">Nuevas Experiencias Gastronómicas</h3>
         <p class="noticia-desc">Comando Café, Maut, Cantina Primordial y más negocios se suman al Centrito, ofreciendo desde café de especialidad hasta cenas gourmet con estilo local.</p>
         <div class="noticia-meta">Abril 2026 · Abiertos ya</div>
       </div>
-      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1569163139394-de4798aa62b2?w=800&h=600&fit=crop&auto=format');">
+      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1548438294-1ad5d5f4f063?w=800&h=600&fit=crop&q=90&auto=format');">
         <div class="noticia-badge" style="background:rgba(199,62,29,.2);color:var(--mx-red);">🎨 Cultura & Arte</div>
         <h3 class="noticia-titulo">Zona de Arte y Expresión Local</h3>
         <p class="noticia-desc">Galerías, pop-ups de artistas locales y espacios para expresión cultural convierten al Centrito en epicentro creativo de San Pedro.</p>
         <div class="noticia-meta">Permanente · Conozca las galerías</div>
       </div>
-      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop&auto=format');">
+      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1588421357574-87938a86fa28?w=800&h=600&fit=crop&q=90&auto=format');">
         <div class="noticia-badge" style="background:rgba(0,74,173,.2);color:#004AAD;">🌿 Sustentabilidad</div>
         <h3 class="noticia-titulo">Centrito Verde y Sustentable</h3>
         <p class="noticia-desc">Iluminación LED, sistemas subterráneos de drenaje y 400 árboles nativos crean un Centrito más fresco, verde y amigable con el medio ambiente.</p>
         <div class="noticia-meta">Iniciativa Municipal · En construcción</div>
       </div>
-      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&h=600&fit=crop&auto=format');">
+      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1508098682722-e99c643e7f0b?w=800&h=600&fit=crop&q=90&auto=format');">
         <div class="noticia-badge" style="background:rgba(212,83,126,.2);color:#D4537E;">⚽ Mundial 2026</div>
         <h3 class="noticia-titulo">Centrito: Epicentro del Mundial</h3>
         <p class="noticia-desc">Watch parties, promociones especiales y ambiente de celebración en restaurantes y bares del Centrito durante los 3 partidos de México en junio.</p>
         <div class="noticia-meta">Junio 2026 · Prepárate para la fiesta</div>
       </div>
-      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&h=600&fit=crop&auto=format');">
+      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=800&h=600&fit=crop&q=90&auto=format');">
         <div class="noticia-badge" style="background:rgba(59,109,17,.2);color:#3B6D11;">🚶 Accesibilidad</div>
         <h3 class="noticia-titulo">Centrito Accesible para Todos</h3>
         <p class="noticia-desc">Banquetas renovadas, señalización moderna y espacios públicos mejorados hacen que el Centrito sea más accesible y amigable para toda la familia.</p>
@@ -647,6 +652,9 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <button class="noticias-btn" id="noticiasBack">←</button>
       <span class="noticias-counter"><span id="noticiaCurrent">1</span> de <span id="noticiasTotal">6</span></span>
       <button class="noticias-btn" id="noticiasNext">→</button>
+    </div>
+    <div class="noticias-progress">
+      <div class="noticias-progress-bar" id="noticiasProgressBar"></div>
     </div>
   </div>
 </section>
@@ -1314,16 +1322,27 @@ const noticiasCards=document.querySelectorAll('.noticia-card');
 const noticiasTotal=noticiasCards.length;
 let noticiasIndex=0;
 let isAnimating=false;
+let lastDirection=1;
 
-function updateNoticias(){
+// Inicializar barra de progreso
+document.getElementById('noticiasTotal').textContent=noticiasTotal;
+
+function updateNoticias(direction=1){
   if(isAnimating)return;
   isAnimating=true;
+  lastDirection=direction;
 
   noticiasCards.forEach((card,idx)=>{
     card.classList.remove('active','prev','next');
     if(idx===noticiasIndex){
       card.classList.add('active');
       card.style.zIndex='10';
+      // Animar entrada con dirección correcta
+      if(direction>0){
+        card.style.animation='slideFromRight 0.7s cubic-bezier(0.34,1.56,0.64,1) forwards';
+      }else{
+        card.style.animation='slideFromLeft 0.7s cubic-bezier(0.34,1.56,0.64,1) forwards';
+      }
     }else if(idx<noticiasIndex){
       card.classList.add('prev');
       card.style.zIndex='5';
@@ -1335,37 +1354,35 @@ function updateNoticias(){
 
   document.getElementById('noticiaCurrent').textContent=noticiasIndex+1;
 
-  // Agregar efecto de pulse al contador
+  // Actualizar barra de progreso
+  const progress=((noticiasIndex+1)/noticiasTotal*100);
+  document.getElementById('noticiasProgressBar').style.width=progress+'%';
+
+  // Pulse al contador
   const counter=document.getElementById('noticiaCurrent');
   counter.style.animation='none';
   setTimeout(()=>{counter.style.animation='pulse 0.6s ease';},10);
 
-  setTimeout(()=>{isAnimating=false;},800);
+  setTimeout(()=>{isAnimating=false;},700);
 }
 
 // Estilos de animación adicionales
 const style=document.createElement('style');
 style.textContent=`
-  @keyframes pulse{
-    0%{transform:scale(1);}
-    50%{transform:scale(1.2);}
-    100%{transform:scale(1);}
-  }
-  #noticiaCurrent{
-    transition:all 0.3s ease;
-    display:inline-block;
-  }
+  @keyframes pulse{0%{transform:scale(1);}50%{transform:scale(1.2);}100%{transform:scale(1);}}
+  #noticiaCurrent{transition:all 0.3s ease;display:inline-block;}
 `;
 document.head.appendChild(style);
 
+// Botones de navegación
 document.getElementById('noticiasNext').addEventListener('click',()=>{
   noticiasIndex=(noticiasIndex+1)%noticiasTotal;
-  updateNoticias();
+  updateNoticias(1);
 });
 
 document.getElementById('noticiasBack').addEventListener('click',()=>{
   noticiasIndex=(noticiasIndex-1+noticiasTotal)%noticiasTotal;
-  updateNoticias();
+  updateNoticias(-1);
 });
 
 // Keyboard navigation
@@ -1373,6 +1390,21 @@ document.addEventListener('keydown',e=>{
   if(e.key==='ArrowRight')document.getElementById('noticiasNext').click();
   if(e.key==='ArrowLeft')document.getElementById('noticiasBack').click();
 });
+
+// Swipe en mobile
+let touchStartX=0;
+const noticiasGrid=document.querySelector('.noticias-grid');
+if(noticiasGrid){
+  noticiasGrid.addEventListener('touchstart',e=>touchStartX=e.touches[0].clientX,{passive:true});
+  noticiasGrid.addEventListener('touchend',e=>{
+    const touchEndX=e.changedTouches[0].clientX;
+    const diff=touchStartX-touchEndX;
+    if(Math.abs(diff)>50){
+      if(diff>0){document.getElementById('noticiasNext').click();}
+      else{document.getElementById('noticiasBack').click();}
+    }
+  },{passive:true});
+}
 
 window.addEventListener('load',initRouteMap);
 
