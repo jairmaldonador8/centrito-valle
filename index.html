@@ -206,7 +206,7 @@ section.reveal::before{animation:dividerFade 1.2s ease-out 0.4s forwards;}
 .noticias-btn:active{transform:scale(0.95);}
 .noticias-counter{font-size:12px;color:var(--st);font-weight:600;letter-spacing:.08em;text-transform:uppercase;min-width:80px;text-align:center;}
 .noticias-progress{width:200px;height:2px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;margin-top:20px;}
-.noticias-progress-bar{height:100%;background:var(--g);transition:width 0.6s cubic-bezier(0.34,1.56,0.64,1);}
+.noticias-progress-bar{height:100%;background:var(--g);transition:width 0.4s cubic-bezier(0.34,1.56,0.64,1);}
 
 /* ── EVENTS ── */
 #events{background:var(--b);}
@@ -1339,9 +1339,9 @@ function updateNoticias(direction=1){
       card.style.zIndex='10';
       // Animar entrada con dirección correcta
       if(direction>0){
-        card.style.animation='slideFromRight 0.7s cubic-bezier(0.34,1.56,0.64,1) forwards';
+        card.style.animation='slideFromRight 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards';
       }else{
-        card.style.animation='slideFromLeft 0.7s cubic-bezier(0.34,1.56,0.64,1) forwards';
+        card.style.animation='slideFromLeft 0.4s cubic-bezier(0.34,1.56,0.64,1) forwards';
       }
     }else if(idx<noticiasIndex){
       card.classList.add('prev');
@@ -1361,9 +1361,9 @@ function updateNoticias(direction=1){
   // Pulse al contador
   const counter=document.getElementById('noticiaCurrent');
   counter.style.animation='none';
-  setTimeout(()=>{counter.style.animation='pulse 0.6s ease';},10);
+  setTimeout(()=>{counter.style.animation='pulse 0.4s ease';},10);
 
-  setTimeout(()=>{isAnimating=false;},700);
+  setTimeout(()=>{isAnimating=false;},400);
 }
 
 // Estilos de animación adicionales
