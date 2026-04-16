@@ -152,15 +152,23 @@ section.reveal::before{animation:dividerFade 1.2s ease-out 0.4s forwards;}
 
 /* ── CATEGORIES ── */
 #categories{background:#000000;border-top:1px solid rgba(212,175,55,.2);}
-.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;}
-.cat-card{border:1px solid var(--border);border-radius:2px;padding:28px 20px;text-align:center;background:transparent;cursor:pointer;transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;overflow:hidden;}
-.cat-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,0.05),transparent);opacity:0;transition:opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94);}
-.cat-card:hover{border-color:var(--g);box-shadow:0 6px 16px rgba(201,168,76,0.08);}
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;padding:20px 0;}
+.cat-card{border:1px solid var(--border);border-radius:8px;padding:32px 24px;text-align:center;background:linear-gradient(135deg,rgba(26,26,26,0.5),rgba(15,15,15,0.5));cursor:pointer;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;overflow:hidden;backdrop-filter:blur(2px);}
+.cat-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%, rgba(201,168,76,0.15), transparent 60%);opacity:0;transition:opacity 0.5s cubic-bezier(0.34,1.56,0.64,1);z-index:0;pointer-events:none;}
+.cat-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,0.1),transparent);opacity:0;transition:opacity 0.5s cubic-bezier(0.34,1.56,0.64,1);z-index:0;pointer-events:none;}
+.cat-card:hover{border-color:var(--g);background:linear-gradient(135deg,rgba(40,35,25,0.8),rgba(25,20,15,0.8));box-shadow:0 12px 32px rgba(201,168,76,0.15), inset 0 1px 1px rgba(255,255,255,0.1);transform:translateY(-8px);}
 .cat-card:hover::before{opacity:1;}
-.cat-icon{width:56px;height:56px;border-radius:2px;display:flex;align-items:center;justify-content:center;font-size:24px;transition:transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.4s ease;position:relative;z-index:1;background:rgba(201,168,76,0.05);}
-.cat-card:hover .cat-icon{transform:scale(1.15);background:rgba(201,168,76,0.12);}
-.cat-label{font-size:11px;font-weight:600;color:var(--white);letter-spacing:.05em;}
-.cat-count{font-size:9px;font-weight:700;padding:3px 8px;border-radius:2px;letter-spacing:.05em;}
+.cat-card:hover::after{opacity:1;}
+.cat-card > *{position:relative;z-index:2;}
+.cat-icon{width:64px;height:64px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:32px;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);position:relative;z-index:2;background:linear-gradient(135deg,rgba(201,168,76,0.15),rgba(201,168,76,0.05));border:1px solid rgba(201,168,76,0.2);box-shadow:0 4px 12px rgba(0,0,0,0.3);transform:perspective(800px) rotateX(0deg) rotateY(0deg);}
+.cat-card:hover .cat-icon{transform:scale(1.2) perspective(800px) rotateX(5deg);background:linear-gradient(135deg,rgba(201,168,76,0.25),rgba(201,168,76,0.1));box-shadow:0 8px 24px rgba(201,168,76,0.2);filter:drop-shadow(0 0 8px rgba(201,168,76,0.3));}
+.cat-label{font-size:12px;font-weight:700;color:var(--white);letter-spacing:.08em;text-transform:uppercase;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);}
+.cat-card:hover .cat-label{color:var(--g);transform:scale(1.05);}
+.cat-desc{font-size:11px;color:rgba(200,200,200,0.7);line-height:1.5;opacity:0;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);max-height:0;overflow:hidden;}
+.cat-card:hover .cat-desc{opacity:1;max-height:60px;margin-top:4px;}
+.cat-count{font-size:10px;font-weight:800;padding:5px 10px;border-radius:4px;letter-spacing:.06em;text-transform:uppercase;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);font-weight:700;}
+.cat-card:hover .cat-count{transform:scale(1.1);}
+@media(max-width:768px){.cat-grid{grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:12px;}.cat-card{padding:24px 16px;}.cat-icon{width:56px;height:56px;font-size:28px;}}
 
 /* ── NOTICIAS RELEVANTES ── */
 #noticias-relevantes{background:#000000;border-top:2px solid rgba(212,175,55,.3);}
@@ -522,12 +530,42 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <h2>¿Qué buscas <em style="color:var(--g);">hoy?</em></h2>
     </div>
     <div class="cat-grid">
-      <a href="#places" class="cat-card reveal"><div class="cat-icon" style="background:rgba(212,175,55,.15);">☕</div><span class="cat-label">Cafés</span><span class="cat-count" style="background:rgba(201,168,76,.12);color:var(--g);">8+</span></a>
-      <a href="#places" class="cat-card reveal reveal-delay-1"><div class="cat-icon" style="background:rgba(45,80,22,.15);">🍽</div><span class="cat-label">Restaurantes</span><span class="cat-count" style="background:rgba(45,80,22,.12);color:#5a9e2f;">30+</span></a>
-      <a href="#places" class="cat-card reveal reveal-delay-2"><div class="cat-icon" style="background:rgba(193,68,14,.15);">🍸</div><span class="cat-label">Bares</span><span class="cat-count" style="background:rgba(193,68,14,.12);color:var(--tr);">12+</span></a>
-      <a href="#places" class="cat-card reveal reveal-delay-3"><div class="cat-icon" style="background:rgba(127,119,221,.15);">🛍</div><span class="cat-label">Tiendas</span><span class="cat-count" style="background:rgba(127,119,221,.12);color:#7F77DD;">25+</span></a>
-      <a href="#places" class="cat-card reveal reveal-delay-4"><div class="cat-icon" style="background:rgba(212,83,126,.15);">🎨</div><span class="cat-label">Arte & Cultura</span><span class="cat-count" style="background:rgba(212,83,126,.12);color:#D4537E;">10+</span></a>
-      <a href="#places" class="cat-card reveal reveal-delay-4"><div class="cat-icon" style="background:rgba(59,109,17,.15);">🌿</div><span class="cat-label">Parques</span><span class="cat-count" style="background:rgba(59,109,17,.12);color:#3B6D11;">4</span></a>
+      <a href="#places" class="cat-card reveal">
+        <div class="cat-icon" style="background:linear-gradient(135deg,rgba(212,175,55,.2),rgba(201,168,76,.1));border-color:rgba(201,168,76,.3);">☕</div>
+        <span class="cat-label">Cafés</span>
+        <p class="cat-desc">Specialty coffee, baristas, atmósfera</p>
+        <span class="cat-count" style="background:rgba(201,168,76,.2);color:var(--g);">8+</span>
+      </a>
+      <a href="#places" class="cat-card reveal reveal-delay-1">
+        <div class="cat-icon" style="background:linear-gradient(135deg,rgba(45,80,22,.2),rgba(45,122,62,.1));border-color:rgba(45,122,62,.3);">🍽</div>
+        <span class="cat-label">Restaurantes</span>
+        <p class="cat-desc">Gourmet, casual, opciones locales</p>
+        <span class="cat-count" style="background:rgba(45,122,62,.2);color:#5a9e2f;">30+</span>
+      </a>
+      <a href="#places" class="cat-card reveal reveal-delay-2">
+        <div class="cat-icon" style="background:linear-gradient(135deg,rgba(193,68,14,.2),rgba(193,68,14,.1));border-color:rgba(193,68,14,.3);">🍸</div>
+        <span class="cat-label">Bares</span>
+        <p class="cat-desc">Ambiente, coctelería, música en vivo</p>
+        <span class="cat-count" style="background:rgba(193,68,14,.2);color:var(--tr);">12+</span>
+      </a>
+      <a href="#places" class="cat-card reveal reveal-delay-3">
+        <div class="cat-icon" style="background:linear-gradient(135deg,rgba(127,119,221,.2),rgba(127,119,221,.1));border-color:rgba(127,119,221,.3);">🛍</div>
+        <span class="cat-label">Tiendas</span>
+        <p class="cat-desc">Moda, diseño local, accesorios únicos</p>
+        <span class="cat-count" style="background:rgba(127,119,221,.2);color:#7F77DD;">25+</span>
+      </a>
+      <a href="#places" class="cat-card reveal reveal-delay-4">
+        <div class="cat-icon" style="background:linear-gradient(135deg,rgba(212,83,126,.2),rgba(212,83,126,.1));border-color:rgba(212,83,126,.3);">🎨</div>
+        <span class="cat-label">Arte & Cultura</span>
+        <p class="cat-desc">Galerías, instalaciones, expresión</p>
+        <span class="cat-count" style="background:rgba(212,83,126,.2);color:#D4537E;">10+</span>
+      </a>
+      <a href="#places" class="cat-card reveal reveal-delay-4">
+        <div class="cat-icon" style="background:linear-gradient(135deg,rgba(59,109,17,.2),rgba(59,109,17,.1));border-color:rgba(59,109,17,.3);">🌿</div>
+        <span class="cat-label">Parques</span>
+        <p class="cat-desc">Espacios verdes, relax, naturaleza</p>
+        <span class="cat-count" style="background:rgba(59,109,17,.2);color:#3B6D11;">4</span>
+      </a>
     </div>
   </div>
 </section>
@@ -1198,6 +1236,22 @@ function initRouteMap(){
         <div style="height:3px;background:rgba(201,168,76,.12);border-radius:2px;margin-top:6px;"><div id="progFill" style="height:100%;background:var(--g);border-radius:2px;width:0%;transition:width .4s;"></div></div>
       </div>`;
 }
+
+// ── CATEGORY CARDS 3D TILT EFFECT ──
+document.querySelectorAll('.cat-card').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const rect=card.getBoundingClientRect();
+    const x=(e.clientX-rect.left)/rect.width-0.5;
+    const y=(e.clientY-rect.top)/rect.height-0.5;
+    const rotX=(y*8);
+    const rotY=(-x*8);
+    card.style.transform=`perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale(1.02)`;
+  });
+  card.addEventListener('mouseleave',()=>{
+    card.style.transform='perspective(1200px) rotateX(0) rotateY(0) scale(1)';
+  });
+});
+
 window.addEventListener('load',initRouteMap);
 
 // ── PROMO CODE COPY ──
