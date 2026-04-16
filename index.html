@@ -7,9 +7,14 @@
 <meta name="description" content="Centrito Valle: zona revitalizada de San Pedro con 100+ negocios, cafés, arte, eventos y el Mundial 2026. Descubre dónde converge lo mejor de la ciudad.">
 <meta property="og:title" content="Distrito Centro Valle">
 <meta property="og:description" content="Centrito Valle: donde la gastronomía, el arte y la comunidad convergen. 700 millones en revitalización. Vive la experiencia.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.googleapis.com" crossorigin>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://images.unsplash.com" crossorigin>
+<link rel="dns-prefetch" href="https://unpkg.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&display=swap">
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="prefetch" href="images/centrito-antes.webp">
+<link rel="prefetch" href="images/centrito-despues.webp">
 <style>
 :root{
   /* Paleta base — grayscale + blanco/negro puro */
@@ -35,7 +40,8 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
-body{background:var(--b);color:var(--w);font-family:'DM Sans',sans-serif;font-weight:400;-webkit-font-smoothing:antialiased;overflow-x:hidden;}
+body{background:var(--b);color:var(--w);font-family:'DM Sans',sans-serif;font-weight:400;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;overflow-x:hidden;backface-visibility:hidden;}
+* {backface-visibility:hidden;-webkit-backface-visibility:hidden;}
 .fr{font-family:'DM Sans',sans-serif;}
 a{color:inherit;text-decoration:none;transition:color .2s;}
 img{max-width:100%;display:block;}
@@ -153,7 +159,7 @@ section.reveal::before{animation:dividerFade 1.2s ease-out 0.4s forwards;}
 /* ── CATEGORIES ── */
 #categories{background:#000000;border-top:1px solid rgba(212,175,55,.2);}
 .cat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:16px;padding:20px 0;}
-.cat-card{border:1px solid var(--border);border-radius:8px;padding:32px 24px;text-align:center;background:linear-gradient(135deg,rgba(26,26,26,0.5),rgba(15,15,15,0.5));cursor:pointer;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;overflow:hidden;backdrop-filter:blur(2px);}
+.cat-card{border:1px solid var(--border);border-radius:8px;padding:32px 24px;text-align:center;background:linear-gradient(135deg,rgba(26,26,26,0.5),rgba(15,15,15,0.5));cursor:pointer;transition:all 0.5s cubic-bezier(0.34,1.56,0.64,1);display:flex;flex-direction:column;align-items:center;gap:12px;position:relative;overflow:hidden;backdrop-filter:blur(2px);will-change:transform,box-shadow,background;contain:layout style;}
 .cat-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%, rgba(201,168,76,0.15), transparent 60%);opacity:0;transition:opacity 0.5s cubic-bezier(0.34,1.56,0.64,1);z-index:0;pointer-events:none;}
 .cat-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,0.1),transparent);opacity:0;transition:opacity 0.5s cubic-bezier(0.34,1.56,0.64,1);z-index:0;pointer-events:none;}
 .cat-card:hover{border-color:var(--g);background:linear-gradient(135deg,rgba(40,35,25,0.8),rgba(25,20,15,0.8));box-shadow:0 12px 32px rgba(201,168,76,0.15), inset 0 1px 1px rgba(255,255,255,0.1);transform:translateY(-8px);}
@@ -178,7 +184,7 @@ section.reveal::before{animation:dividerFade 1.2s ease-out 0.4s forwards;}
 @keyframes cardSlideOut{from{opacity:1;transform:scale(1) translateX(0) rotateY(-25deg);}to{opacity:0;transform:scale(0.85) translateX(-100px) rotateY(0deg);}}
 
 .noticias-grid{position:relative;height:500px;max-width:900px;margin:0 auto;perspective:1200px;}
-.noticia-card{position:absolute;inset:0;border:1px solid var(--border);border-radius:12px;padding:32px;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;opacity:0;pointer-events:none;transform:scale(0.85) translateX(100px) rotateY(25deg);z-index:0;transition:all 0.8s cubic-bezier(0.34,1.56,0.64,1);background-attachment:fixed;}
+.noticia-card{position:absolute;inset:0;border:1px solid var(--border);border-radius:12px;padding:32px;background-size:cover;background-position:center;display:flex;flex-direction:column;justify-content:flex-end;opacity:0;pointer-events:none;transform:scale(0.85) translateX(100px) rotateY(25deg);z-index:0;transition:all 0.8s cubic-bezier(0.34,1.56,0.64,1);background-attachment:fixed;will-change:transform,opacity;contain:layout style paint;}
 .noticia-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg, transparent 0%, rgba(0,0,0,0.8) 100%);opacity:1;z-index:1;border-radius:12px;transition:all 0.8s ease;}
 .noticia-card::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 20%, rgba(201,168,76,0.2), transparent 70%);opacity:0;transition:opacity 0.8s cubic-bezier(0.34,1.56,0.64,1);z-index:1;border-radius:12px;pointer-events:none;}
 .noticia-card.active{opacity:1;pointer-events:auto;transform:scale(1) translateX(0) rotateY(0deg);z-index:10;animation:cardSlideIn 0.8s cubic-bezier(0.34,1.56,0.64,1) forwards;}
@@ -377,7 +383,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
 .footer-bottom p{font-size:10px;color:rgba(140,131,117,.5);}
 
 /* ── ANIMATIONS ── */
-.reveal{opacity:0;transform:translateY(60px) scale(0.90);filter:blur(6px);transition:opacity 0.6s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.5s ease-out;}
+.reveal{opacity:0;transform:translateY(60px) scale(0.90);filter:blur(6px);transition:opacity 0.6s cubic-bezier(0.25,0.46,0.45,0.94), transform 0.6s cubic-bezier(0.25,0.46,0.45,0.94), filter 0.5s ease-out;will-change:opacity,transform,filter;contain:layout style paint;}
 .reveal.visible{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
 .reveal-delay-1{transition-delay:0.1s;}
 .reveal-delay-2{transition-delay:0.2s;}
@@ -594,37 +600,37 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
       <h2>Noticias del <em style="color:var(--g);">Centrito</em></h2>
     </div>
     <div class="noticias-grid">
-      <div class="noticia-card active" style="background-image:url('https://images.unsplash.com/photo-1449844908441-8829872d2607?w=800&h=600&fit=crop');">
+      <div class="noticia-card active" style="background-image:url('https://images.unsplash.com/photo-1449844908441-8829872d2607?w=800&h=600&fit=crop&auto=format');">
         <div class="noticia-badge" style="background:rgba(212,175,55,.2);color:var(--g);">🚀 Revitalización</div>
         <h3 class="noticia-titulo">700 Millones en Transformación Urbana</h3>
         <p class="noticia-desc">El Centrito Valle está viviendo su mayor transformación con inversión en infraestructura moderna, 400 árboles nativos plantados y espacios públicos renovados.</p>
         <div class="noticia-meta">Proyecto Distrito Centro Valle · 2024-2026</div>
       </div>
-      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1442512595331-e89e30ea369e?w=800&h=600&fit=crop');">
+      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1442512595331-e89e30ea369e?w=800&h=600&fit=crop&auto=format');">
         <div class="noticia-badge" style="background:rgba(45,122,62,.2);color:#5a9e2f;">☕ Nuevos Cafés</div>
         <h3 class="noticia-titulo">Nuevas Experiencias Gastronómicas</h3>
         <p class="noticia-desc">Comando Café, Maut, Cantina Primordial y más negocios se suman al Centrito, ofreciendo desde café de especialidad hasta cenas gourmet con estilo local.</p>
         <div class="noticia-meta">Abril 2026 · Abiertos ya</div>
       </div>
-      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1569163139394-de4798aa62b2?w=800&h=600&fit=crop');">
+      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1569163139394-de4798aa62b2?w=800&h=600&fit=crop&auto=format');">
         <div class="noticia-badge" style="background:rgba(199,62,29,.2);color:var(--mx-red);">🎨 Cultura & Arte</div>
         <h3 class="noticia-titulo">Zona de Arte y Expresión Local</h3>
         <p class="noticia-desc">Galerías, pop-ups de artistas locales y espacios para expresión cultural convierten al Centrito en epicentro creativo de San Pedro.</p>
         <div class="noticia-meta">Permanente · Conozca las galerías</div>
       </div>
-      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop');">
+      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop&auto=format');">
         <div class="noticia-badge" style="background:rgba(0,74,173,.2);color:#004AAD;">🌿 Sustentabilidad</div>
         <h3 class="noticia-titulo">Centrito Verde y Sustentable</h3>
         <p class="noticia-desc">Iluminación LED, sistemas subterráneos de drenaje y 400 árboles nativos crean un Centrito más fresco, verde y amigable con el medio ambiente.</p>
         <div class="noticia-meta">Iniciativa Municipal · En construcción</div>
       </div>
-      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&h=600&fit=crop');">
+      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=800&h=600&fit=crop&auto=format');">
         <div class="noticia-badge" style="background:rgba(212,83,126,.2);color:#D4537E;">⚽ Mundial 2026</div>
         <h3 class="noticia-titulo">Centrito: Epicentro del Mundial</h3>
         <p class="noticia-desc">Watch parties, promociones especiales y ambiente de celebración en restaurantes y bares del Centrito durante los 3 partidos de México en junio.</p>
         <div class="noticia-meta">Junio 2026 · Prepárate para la fiesta</div>
       </div>
-      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&h=600&fit=crop');">
+      <div class="noticia-card" style="background-image:url('https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&h=600&fit=crop&auto=format');">
         <div class="noticia-badge" style="background:rgba(59,109,17,.2);color:#3B6D11;">🚶 Accesibilidad</div>
         <h3 class="noticia-titulo">Centrito Accesible para Todos</h3>
         <p class="noticia-desc">Banquetas renovadas, señalización moderna y espacios públicos mejorados hacen que el Centrito sea más accesible y amigable para toda la familia.</p>
@@ -1100,7 +1106,12 @@ function closeMobile(){document.getElementById('mobileMenu').classList.remove('o
 
 // ── REVEAL ON SCROLL ──
 const revealObs=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+      revealObs.unobserve(e.target);
+    }
+  });
 },{threshold:.08});
 document.querySelectorAll('.reveal').forEach(el=>revealObs.observe(el));
 
