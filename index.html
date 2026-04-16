@@ -90,7 +90,7 @@ section.reveal::before{animation:dividerFade 1.2s ease-out 0.4s forwards;}
 @keyframes dividerFade{0%{opacity:0}50%{opacity:1}100%{opacity:0}}
 .section-header{margin-bottom:40px;animation:sectionHeaderFade 0.8s cubic-bezier(0.34,1.56,0.64,1) both;}
 @keyframes sectionHeaderFade{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.section-header h2{font-family:'DM Sans',sans-serif;font-size:clamp(2rem,4vw,3.2rem);line-height:.95;font-weight:600;letter-spacing:-.3px;}
+.section-header h2{font-family:'DM Sans',sans-serif;font-size:clamp(2rem,4vw,3.2rem);line-height:.95;font-weight:300;letter-spacing:-0.02em;}
 .section-header p{font-size:13px;color:var(--st);margin-top:10px;max-width:480px;line-height:1.7;font-weight:300;letter-spacing:.2px;}
 .btn-gold{display:inline-flex;align-items:center;gap:8px;padding:14px 32px;border:1px solid var(--white);background:transparent;color:var(--white);border-radius:0;font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;cursor:pointer;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);position:relative;}
 .btn-gold::before{content:'';position:absolute;inset:0;background:var(--white);z-index:-1;transition:transform 0.4s cubic-bezier(0.34,1.56,0.64,1);transform:scaleX(0);transform-origin:right;}
@@ -361,11 +361,16 @@ section.reveal::before{animation:dividerFade 1.2s ease-out 0.4s forwards;}
 
 /* ── NEWSLETTER ── */
 #newsletter{background:var(--b);text-align:center;}
-#newsletter h2{font-family:'DM Sans',sans-serif;font-size:clamp(1.8rem,4vw,3rem);}
+#newsletter h2{font-family:'DM Sans',sans-serif;font-size:clamp(1.8rem,4vw,3rem);font-weight:300;letter-spacing:-0.02em;}
 .nl-form{display:flex;gap:10px;max-width:420px;margin:0 auto;}
 .nl-form input{flex:1;background:rgba(255,255,255,.06);border:1px solid rgba(201,168,76,.25);border-radius:8px;padding:13px 16px;font-size:13px;color:var(--w);font-family:'DM Sans',sans-serif;}
 .nl-form input::placeholder{color:var(--st);}
 .nl-form input:focus{outline:none;border-color:var(--g);}
+
+/* ── FIRMA ── */
+.firma-section{text-align:center;padding:60px 0;border-top:1px solid var(--border);}
+.firma-texto{font-family:'DM Sans',sans-serif;font-size:clamp(1.4rem,4vw,2.5rem);font-weight:300;letter-spacing:-0.02em;text-transform:uppercase;color:rgba(255,255,255,0.35);line-height:1.1;}
+.footer-firma{font-size:10px;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;color:rgba(201,168,76,0.4);text-align:center;flex:1;}
 
 /* ── FOOTER ── */
 footer{background:#0A0A0A;border-top:1px solid var(--border);padding:80px 0 20px;position:relative;}
@@ -878,6 +883,11 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
   </div>
 </section>
 
+<!-- FIRMA -->
+<div class="firma-section">
+  <p class="firma-texto">Donde todo converge</p>
+</div>
+
 <!-- NEWSLETTER -->
 <section id="newsletter">
   <div class="container">
@@ -932,6 +942,7 @@ footer::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;back
     </div>
     <div class="footer-bottom">
       <p>Sitio oficial · Municipio de San Pedro Garza García, N.L. · <span style="color:var(--g);">#CentritoValle</span></p>
+      <p class="footer-firma">— Donde todo converge —</p>
       <p>Desarrollado por VITA Studio</p>
     </div>
   </div>
