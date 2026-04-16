@@ -212,22 +212,31 @@ section.reveal::before{animation:dividerFade 1.2s ease-out 0.4s forwards;}
 
 /* ── PLACES ── */
 #places{background:var(--b);}
-.places-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;}
-.place-card{border:1px solid var(--border);border-radius:0;overflow:hidden;background:transparent;transition:all 0.4s cubic-bezier(0.34,1.56,0.64,1);cursor:pointer;position:relative;}
-.place-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,0.1) 0%,transparent 100%);opacity:0;transition:opacity 0.4s cubic-bezier(0.34,1.56,0.64,1);pointer-events:none;z-index:2;}
-.place-card:hover{border-color:var(--border-strong);}
+.places-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;}
+.place-card{border:1px solid var(--border);border-radius:2px;overflow:hidden;background:transparent;transition:all 0.4s cubic-bezier(0.25,0.46,0.45,0.94);cursor:pointer;position:relative;display:flex;flex-direction:column;}
+.place-card::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(201,168,76,0.15) 0%,transparent 50%);opacity:0;transition:opacity 0.4s cubic-bezier(0.25,0.46,0.45,0.94);pointer-events:none;z-index:2;}
+.place-card:hover{border-color:var(--g);box-shadow:0 8px 24px rgba(201,168,76,0.1);}
 .place-card:hover::after{opacity:1;}
-.place-card:hover .cat-icon{transform:scale(1.08);}
-.place-img{height:140px;display:flex;align-items:center;justify-content:center;position:relative;}
-.place-body{padding:16px;}
-.place-name{font-family:'DM Sans',sans-serif;font-size:1.15rem;color:var(--w);margin-bottom:5px;font-weight:600;letter-spacing:-.1px;}
-.place-desc{font-size:11px;color:var(--st);line-height:1.55;margin-bottom:12px;font-weight:300;letter-spacing:.1px;}
-.place-actions{display:flex;gap:8px;}
-.place-btn{flex:1;padding:8px;border-radius:6px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:500;cursor:pointer;text-align:center;transition:all .2s;}
-.place-btn-wa{border:1px solid rgba(45,122,62,.4);color:#5a9e2f;background:none;}
-.place-btn-wa:hover{background:rgba(45,122,62,.1);}
-.place-btn-map{border:1px solid rgba(212,175,55,.25);color:var(--g);background:none;}
-.place-btn-map:hover{background:rgba(212,175,55,.08);}
+.place-card:hover .place-img{transform:scale(1.05);}
+.place-img{height:160px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background-size:cover;background-position:center;transition:transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94);}
+.place-img::before{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.2) 0%,rgba(0,0,0,0.5) 100%);z-index:1;}
+.place-body{padding:20px;flex:1;display:flex;flex-direction:column;gap:12px;}
+.place-certs{display:flex;gap:6px;flex-wrap:wrap;z-index:3;}
+.place-cert{font-size:7px;font-weight:700;padding:4px 8px;border-radius:3px;text-transform:uppercase;letter-spacing:.08em;display:flex;align-items:center;gap:3px;}
+.cert-verified{background:rgba(45,122,62,.2);color:#5a9e2f;border:1px solid rgba(45,122,62,.4);}
+.cert-premium{background:rgba(201,168,76,.2);color:var(--g);border:1px solid rgba(201,168,76,.4);}
+.cert-new{background:rgba(193,68,14,.2);color:var(--tr);border:1px solid rgba(193,68,14,.4);}
+.cert-watch{background:rgba(45,80,22,.2);color:#5a9e2f;border:1px solid rgba(45,80,22,.4);}
+.cert-pet{background:rgba(127,119,221,.2);color:#7F77DD;border:1px solid rgba(127,119,221,.4);}
+.cert-local{background:rgba(212,83,126,.2);color:#D4537E;border:1px solid rgba(212,83,126,.4);}
+.place-name{font-family:'DM Sans',sans-serif;font-size:1.1rem;color:var(--w);margin:0;font-weight:600;letter-spacing:-.05px;}
+.place-desc{font-size:12px;color:var(--gray-300);line-height:1.6;margin:0;font-weight:300;}
+.place-actions{display:flex;gap:10px;margin-top:auto;}
+.place-btn{flex:1;padding:10px;border-radius:3px;font-family:'DM Sans',sans-serif;font-size:10px;font-weight:600;cursor:pointer;text-align:center;transition:all 0.3s cubic-bezier(0.25,0.46,0.45,0.94);letter-spacing:.05em;text-transform:uppercase;}
+.place-btn-wa{border:1px solid rgba(45,122,62,.5);color:#5a9e2f;background:transparent;}
+.place-btn-wa:hover{background:rgba(45,122,62,.15);border-color:#5a9e2f;}
+.place-btn-map{border:1px solid rgba(212,175,55,.5);color:var(--g);background:transparent;}
+.place-btn-map:hover{background:rgba(212,175,55,.15);border-color:var(--g);}
 
 /* ── PROMOS ── */
 #promos{background:var(--b);}
@@ -865,12 +874,12 @@ function hideLoadingScreen(){const e=document.getElementById('loading-screen');e
 
 // ── DATA ──
 const PLACES=[
-  {id:1,name:'Mood Coffee',cat:'Café',catColor:'#C9A84C',desc:'Especialista en espresso y bebidas artesanales. Espacio amplio y pet-friendly perfecto para trabajar.',bg:'linear-gradient(135deg,#1a1000,#2a1a00)',mundial:false,isNew:false,phone:'528183472345',lat:25.6525,lng:-100.3926},
-  {id:2,name:'Alchemy Coffee Lab',cat:'Café',catColor:'#C9A84C',desc:'Laboratorio de café con specialty coffee de origen único. Baristas certificados y método científico.',bg:'linear-gradient(135deg,#1a1000,#2a1a00)',mundial:false,isNew:false,phone:'528183475678',lat:25.6528,lng:-100.3920},
-  {id:3,name:'Divitta',cat:'Restaurante',catColor:'#2D5016',desc:'Nuevo concepto de Delivery Comfort Food. Platos frescos con ingredientes de calidad premium.',bg:'linear-gradient(135deg,#001a00,#0a2a0a)',mundial:false,isNew:true,phone:'528183478901',lat:25.6532,lng:-100.3915},
-  {id:4,name:'Taquería Orinoco',cat:'Taquería',catColor:'#C1440E',desc:'Tacos tradicionales con ingredientes frescos. Especialidad en carne asada y barbacoa. Casual y acogedor.',bg:'linear-gradient(135deg,#1a0000,#2a0a0a)',mundial:false,isNew:false,phone:'528183472341',lat:25.6535,lng:-100.3918},
-  {id:5,name:'La Parrilla del Centrito',cat:'Bar',catColor:'#C1440E',desc:'Parrilla especializada en carnes premium. Ambiente casual con vistas al Centrito. Perfecto para eventos.',bg:'linear-gradient(135deg,#1a0a00,#2a1500)',mundial:true,isNew:false,phone:'528183473456',lat:25.6540,lng:-100.3910},
-  {id:6,name:'Boutique del Centrito',cat:'Tienda',catColor:'#8C8375',desc:'Moda y accesorios con diseño alternativo. Piezas exclusivas de diseñadores locales y emergentes.',bg:'linear-gradient(135deg,#1a1a1a,#2a2a2a)',mundial:false,isNew:false,phone:'528183474567',lat:25.6543,lng:-100.3912},
+  {id:1,name:'Mood Coffee',cat:'Café',catColor:'#C9A84C',desc:'Especialista en espresso y bebidas artesanales. Espacio amplio y pet-friendly perfecto para trabajar.',img:'https://images.unsplash.com/photo-1442512595331-e89e30ea369e?w=500&h=300&fit=crop',certs:['verified','pet-friendly','specialty'],mundial:false,isNew:false,phone:'528183472345',lat:25.6525,lng:-100.3926},
+  {id:2,name:'Alchemy Coffee Lab',cat:'Café',catColor:'#C9A84C',desc:'Laboratorio de café con specialty coffee de origen único. Baristas certificados y método científico.',img:'https://images.unsplash.com/photo-1493857671505-72967e2e2760?w=500&h=300&fit=crop',certs:['verified','premium','specialty'],mundial:false,isNew:false,phone:'528183475678',lat:25.6528,lng:-100.3920},
+  {id:3,name:'Divitta',cat:'Restaurante',catColor:'#2D5016',desc:'Nuevo concepto de Delivery Comfort Food. Platos frescos con ingredientes de calidad premium.',img:'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=500&h=300&fit=crop',certs:['verified','premium','new'],mundial:false,isNew:true,phone:'528183478901',lat:25.6532,lng:-100.3915},
+  {id:4,name:'Taquería Orinoco',cat:'Taquería',catColor:'#C1440E',desc:'Tacos tradicionales con ingredientes frescos. Especialidad en carne asada y barbacoa. Casual y acogedor.',img:'https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=500&h=300&fit=crop',certs:['verified','local-favorite'],mundial:false,isNew:false,phone:'528183472341',lat:25.6535,lng:-100.3918},
+  {id:5,name:'La Parrilla del Centrito',cat:'Bar',catColor:'#C1440E',desc:'Parrilla especializada en carnes premium. Ambiente casual con vistas al Centrito. Perfecto para eventos.',img:'https://images.unsplash.com/photo-1555939594-58d7cb561c1a?w=500&h=300&fit=crop',certs:['verified','watch-party','premium'],mundial:true,isNew:false,phone:'528183473456',lat:25.6540,lng:-100.3910},
+  {id:6,name:'Boutique del Centrito',cat:'Tienda',catColor:'#8C8375',desc:'Moda y accesorios con diseño alternativo. Piezas exclusivas de diseñadores locales y emergentes.',img:'https://images.unsplash.com/photo-1609399788128-da5437eaf5c9?w=500&h=300&fit=crop',certs:['verified','local-artists'],mundial:false,isNew:false,phone:'528183474567',lat:25.6543,lng:-100.3912},
 ];
 
 const PROMOS=[
@@ -971,23 +980,27 @@ function renderNoticias() {
 // Call on page load
 document.addEventListener('DOMContentLoaded', renderNoticias);
 
+// ── CERT LABELS ──
+const CERT_LABELS={verified:'✓ Verificado',premium:'★ Premium',new:'Nuevo',specialty:'Specialty',local_favorite:'Favorito',pet_friendly:'🐾 Pet',watch_party:'⚽ Watch Party',local_artists:'Artistas Locales'};
+const CERT_CLASSES={verified:'cert-verified',premium:'cert-premium',new:'cert-new',specialty:'cert-premium',local_favorite:'cert-local',pet_friendly:'cert-pet',watch_party:'cert-watch',local_artists:'cert-local'};
+
 // ── RENDER PLACES ──
 document.getElementById('placesGrid').innerHTML=PLACES.map(p=>`
-<div class="place-card">
-  <div class="place-img" style="background:${p.bg};position:relative;">
-    <svg width="28" height="28" viewBox="0 0 32 32" fill="none" opacity=".15"><line x1="16" y1="16" x2="16" y2="2" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="30" y2="2" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="30" y2="16" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="30" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="16" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="2" y2="30" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="2" y2="16" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="16" y1="16" x2="2" y2="2" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
-    <div style="position:absolute;top:10px;left:10px;display:flex;gap:5px;">
-      <span class="badge" style="background:${p.catColor}22;color:${p.catColor};border:1px solid ${p.catColor}33;">${p.cat}</span>
-      ${p.isNew?'<span class="badge" style="background:rgba(193,68,14,.15);color:#C1440E;border:1px solid rgba(193,68,14,.25);">Nuevo</span>':''}
-      ${p.mundial?'<span class="badge" style="background:rgba(45,80,22,.2);color:#5a9e2f;border:1px solid rgba(45,80,22,.3);">⚽ Mundial</span>':''}
-    </div>
+<div class="place-card card-reveal">
+  <div class="place-img" style="background-image:url('${p.img}');">
   </div>
   <div class="place-body">
-    <p class="place-name">${p.name}</p>
+    <div class="place-certs">
+      ${p.certs.map(c=>`<span class="place-cert ${CERT_CLASSES[c]}">${CERT_LABELS[c]}</span>`).join('')}
+    </div>
+    <div>
+      <p class="place-name">${p.name}</p>
+      <p style="font-size:9px;color:var(--g);font-weight:600;letter-spacing:.05em;text-transform:uppercase;margin:4px 0 0;">${p.cat}</p>
+    </div>
     <p class="place-desc">${p.desc}</p>
     <div class="place-actions">
       <a href="https://wa.me/${p.phone}" target="_blank" class="place-btn place-btn-wa">WhatsApp</a>
-      <a href="https://maps.google.com/?q=${p.lat},${p.lng}" target="_blank" class="place-btn place-btn-map">Ver mapa</a>
+      <a href="https://maps.google.com/?q=${p.lat},${p.lng}" target="_blank" class="place-btn place-btn-map">Mapa</a>
     </div>
   </div>
 </div>`).join('');
