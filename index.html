@@ -1096,11 +1096,11 @@ const PROMOS=[
 ];
 
 const CAFES=[
-  {id:1,name:'Mood Coffee',address:'Av. José Vasconcelos 404',hours:'Lun–Dom 7:00–20:00',openNow:true,must:'Lattes artesanales y desayunos gourmet',tags:['terraza','pet-friendly','wifi'],lat:25.6525,lng:-100.3926,phone:'528183472345'},
-  {id:2,name:'Alchemy Coffee Lab',address:'Av. Vasconcelos 150 Local 2C',hours:'Lun–Dom 8:00–19:00',openNow:true,must:'Specialty coffee de origen único',tags:['especialidad','baristas','método científico'],lat:25.6528,lng:-100.3920,phone:'528183475678'},
-  {id:3,name:'Kali Coffee',address:'Centrito Valle, Calzada del Valle',hours:'Lun–Dom 6:00–21:00',openNow:true,must:'Excelente atmósfera para trabajar',tags:['work-space','premium','coworking'],lat:25.6530,lng:-100.3915,phone:'528183470001'},
-  {id:4,name:'Café Laurel',address:'Río Orinoco, Centrito Valle',hours:'Lun–Dom 7:00–22:00',openNow:true,must:'Elegancia en cada taza',tags:['sofisticado','premium'],lat:25.6535,lng:-100.3918,phone:'528183470002'},
-  {id:5,name:'BreAd Panaderos Artesanales',address:'Centrito Valle',hours:'Lun–Dom 6:00–20:00',openNow:true,must:'Panes artesanales y pasteles frescos',tags:['panadería','repostería','café'],lat:25.6540,lng:-100.3910,phone:'528183470003'},
+  {id:1,name:'Mood Coffee',address:'Av. José Vasconcelos 404',hours:'Lun–Dom 7:00–20:00',openNow:true,must:'Lattes artesanales y desayunos gourmet',tags:['terraza','pet-friendly','wifi'],lat:25.6525,lng:-100.3926,phone:'528183472345',img:'https://images.unsplash.com/photo-1511920170033-f8396924c348?w=500&h=300&fit=crop&q=90&auto=format'},
+  {id:2,name:'Alchemy Coffee Lab',address:'Av. Vasconcelos 150 Local 2C',hours:'Lun–Dom 8:00–19:00',openNow:true,must:'Specialty coffee de origen único',tags:['especialidad','baristas','método científico'],lat:25.6528,lng:-100.3920,phone:'528183475678',img:'https://images.unsplash.com/photo-1559056199-641a0ac8b8d5?w=500&h=300&fit=crop&q=90&auto=format'},
+  {id:3,name:'Kali Coffee',address:'Centrito Valle, Calzada del Valle',hours:'Lun–Dom 6:00–21:00',openNow:true,must:'Excelente atmósfera para trabajar',tags:['work-space','premium','coworking'],lat:25.6530,lng:-100.3915,phone:'528183470001',img:'https://images.unsplash.com/photo-1495521821757-a1efb6729352?w=500&h=300&fit=crop&q=90&auto=format'},
+  {id:4,name:'Café Laurel',address:'Río Orinoco, Centrito Valle',hours:'Lun–Dom 7:00–22:00',openNow:true,must:'Elegancia en cada taza',tags:['sofisticado','premium'],lat:25.6535,lng:-100.3918,phone:'528183470002',img:'https://images.unsplash.com/photo-1447933601403-0c6688de566e?w=500&h=300&fit=crop&q=90&auto=format'},
+  {id:5,name:'BreAd Panaderos Artesanales',address:'Centrito Valle',hours:'Lun–Dom 6:00–20:00',openNow:true,must:'Panes artesanales y pasteles frescos',tags:['panadería','repostería','café'],lat:25.6540,lng:-100.3910,phone:'528183470003',img:'https://images.unsplash.com/photo-1509042239860-f550ce710b93?w=500&h=300&fit=crop&q=90&auto=format'},
 ];
 
 const NOTICIAS = [
@@ -1406,6 +1406,9 @@ function initRouteMap(){
   rMap.fitBounds(L.latLngBounds(CAFES.map(c=>[c.lat,c.lng])),{padding:[30,30]});
   document.getElementById('routeSidebar').innerHTML=CAFES.map(c=>`
     <div class="route-stop" id="sc${c.id}" data-id="${c.id}" onclick="selectStop(${c.id})">
+      <div style="height:120px;background-image:url('${c.img}');background-size:cover;background-position:center;border-radius:6px;margin-bottom:12px;position:relative;overflow:hidden;">
+        <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(0,0,0,0.1),rgba(0,0,0,0.4));"></div>
+      </div>
       <div class="stop-head">
         <div class="stop-num">${c.id}</div>
         <div><p class="stop-name">${c.name}</p><p class="stop-meta">📍 ${c.address}</p></div>
