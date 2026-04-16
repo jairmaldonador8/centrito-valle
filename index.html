@@ -114,16 +114,17 @@ section{padding:80px 0;border-top:1px solid var(--border);}
 .cat-label{font-size:11px;font-weight:500;color:rgba(245,242,236,.75);}
 .cat-count{font-size:9px;font-weight:700;padding:2px 7px;border-radius:3px;}
 
-/* ── STATS ── */
-#stats{background:var(--b);}
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;}
-.stat-box{border:1px solid rgba(201,168,76,.14);border-radius:12px;padding:22px 18px;background:rgba(28,28,28,.4);transition:all .25s;cursor:default;position:relative;overflow:hidden;}
-.stat-box::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent);transition:left .6s;pointer-events:none;}
-.stat-box:hover{border-color:rgba(201,168,76,.4);background:var(--ink);}
-.stat-box:hover::after{left:100%;}
-.stat-num{font-family:'Fraunces',serif;font-size:2.8rem;color:var(--g);line-height:1;}
-.stat-name{font-size:12px;font-weight:500;color:var(--w);margin:5px 0 3px;}
-.stat-desc{font-size:10px;color:var(--st);}
+/* ── NOTICIAS RELEVANTES ── */
+#noticias-relevantes{background:linear-gradient(135deg,#1a1a1a 0%,#1f1a1a 100%);border-top:3px solid rgba(212,175,55,.2);}
+.noticias-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.noticia-card{border:1px solid rgba(212,175,55,.2);border-radius:12px;padding:20px;background:rgba(28,28,28,.6);transition:all .3s cubic-bezier(.34,1.56,.64,1);cursor:pointer;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:12px;}
+.noticia-card::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(212,175,55,.1),transparent);transition:left .6s;pointer-events:none;}
+.noticia-card:hover{border-color:rgba(212,175,55,.4);background:rgba(28,28,28,.9);transform:translateY(-3px);box-shadow:0 8px 24px rgba(212,175,55,.15);}
+.noticia-card:hover::after{left:100%;}
+.noticia-badge{font-size:10px;font-weight:700;padding:5px 10px;border-radius:6px;display:inline-block;width:fit-content;letter-spacing:.05em;text-transform:uppercase;}
+.noticia-titulo{font-family:'Fraunces',serif;font-size:1.2rem;color:var(--w);margin:0;line-height:1.3;}
+.noticia-desc{font-size:13px;color:rgba(245,242,236,.7);line-height:1.6;margin:0;}
+.noticia-meta{font-size:10px;color:var(--st);text-transform:uppercase;letter-spacing:.06em;margin-top:auto;}
 
 /* ── EVENTS ── */
 #events{background:var(--b);}
@@ -466,20 +467,50 @@ footer{background:var(--ink);border-top:3px solid var(--mx-red);padding:60px 0 2
   </div>
 </section>
 
-<!-- STATS -->
-<section id="stats">
+<!-- NOTICIAS RELEVANTES -->
+<section id="noticias-relevantes">
   <div class="container">
     <div class="section-header reveal">
-      <div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-t">El barrio en números</span></div>
-      <h2>Centrito Valle, <em style="color:var(--g);">por los datos</em></h2>
+      <div class="eyebrow"><div class="eyebrow-line"></div><span class="eyebrow-t">Lo que está pasando</span></div>
+      <h2>Noticias del <em style="color:var(--g);">Centrito</em></h2>
     </div>
-    <div class="stats-grid">
-      <div class="stat-box reveal"><p class="stat-num cs" data-end="120" data-suf="+">0+</p><p class="stat-name">Negocios</p><p class="stat-desc">Cafés, bares, tiendas y más</p></div>
-      <div class="stat-box reveal reveal-delay-1"><p class="stat-num cs" data-end="80" data-suf="">0</p><p class="stat-name">Años de historia</p><p class="stat-desc">Desde los años 40</p></div>
-      <div class="stat-box reveal reveal-delay-2"><p class="stat-num cs" data-end="700" data-suf="M">0M</p><p class="stat-name">Pesos inversión</p><p class="stat-desc">Proyecto urbano DCV</p></div>
-      <div class="stat-box reveal reveal-delay-3"><p class="stat-num cs" data-end="12" data-suf="+">0+</p><p class="stat-name">Venues Mundial</p><p class="stat-desc">Pantallas LED gigantes</p></div>
-      <div class="stat-box reveal reveal-delay-4"><p class="stat-num cs" data-end="5" data-suf="">0</p><p class="stat-name">Cafés en la ruta</p><p class="stat-desc">2.3 km a pie</p></div>
-      <div class="stat-box reveal reveal-delay-4"><p class="stat-num cs" data-end="10" data-suf="M">0M</p><p class="stat-name">Visitantes</p><p class="stat-desc">Proyección Mundial 2026</p></div>
+    <div class="noticias-grid">
+      <div class="noticia-card reveal">
+        <div class="noticia-badge" style="background:rgba(212,175,55,.15);color:var(--g);">🚀 Revitalización</div>
+        <h3 class="noticia-titulo">700 Millones en Transformación Urbana</h3>
+        <p class="noticia-desc">El Centrito Valle está viviendo su mayor transformación con inversión en infraestructura moderna, 400 árboles nativos plantados y espacios públicos renovados.</p>
+        <div class="noticia-meta">Proyecto Distrito Centro Valle · 2024-2026</div>
+      </div>
+      <div class="noticia-card reveal reveal-delay-1">
+        <div class="noticia-badge" style="background:rgba(45,122,62,.15);color:#5a9e2f;">☕ Nuevos Cafés</div>
+        <h3 class="noticia-titulo">Nuevas Experiencias Gastronómicas</h3>
+        <p class="noticia-desc">Comando Café, Maut, Cantina Primordial y más negocios se suman al Centrito, ofreciendo desde café de especialidad hasta cenas gourmet con estilo local.</p>
+        <div class="noticia-meta">Abril 2026 · Abiertos ya</div>
+      </div>
+      <div class="noticia-card reveal reveal-delay-2">
+        <div class="noticia-badge" style="background:rgba(199,62,29,.15);color:var(--mx-red);">🎨 Cultura & Arte</div>
+        <h3 class="noticia-titulo">Zona de Arte y Expresión Local</h3>
+        <p class="noticia-desc">Galerías, pop-ups de artistas locales y espacios para expresión cultural convierten al Centrito en epicentro creativo de San Pedro.</p>
+        <div class="noticia-meta">Permanente · Conozca las galerías</div>
+      </div>
+      <div class="noticia-card reveal reveal-delay-3">
+        <div class="noticia-badge" style="background:rgba(0,74,173,.15);color:#004AAD;">🌿 Sustentabilidad</div>
+        <h3 class="noticia-titulo">Centrito Verde y Sustentable</h3>
+        <p class="noticia-desc">Iluminación LED, sistemas subterráneos de drenaje y 400 árboles nativos crean un Centrito más fresco, verde y amigable con el medio ambiente.</p>
+        <div class="noticia-meta">Iniciativa Municipal · En construcción</div>
+      </div>
+      <div class="noticia-card reveal reveal-delay-4">
+        <div class="noticia-badge" style="background:rgba(212,83,126,.15);color:#D4537E;">⚽ Mundial 2026</div>
+        <h3 class="noticia-titulo">Centrito: Epicentro del Mundial</h3>
+        <p class="noticia-desc">Watch parties, promociones especiales y ambiente de celebración en restaurantes y bares del Centrito durante los 3 partidos de México en junio.</p>
+        <div class="noticia-meta">Junio 2026 · Prepárate para la fiesta</div>
+      </div>
+      <div class="noticia-card reveal reveal-delay-4">
+        <div class="noticia-badge" style="background:rgba(59,109,17,.15);color:#3B6D11;">🚶 Accesibilidad</div>
+        <h3 class="noticia-titulo">Centrito Accesible para Todos</h3>
+        <p class="noticia-desc">Banquetas renovadas, señalización moderna y espacios públicos mejorados hacen que el Centrito sea más accesible y amigable para toda la familia.</p>
+        <div class="noticia-meta">Completado · Disfruta el barrio</div>
+      </div>
     </div>
   </div>
 </section>
