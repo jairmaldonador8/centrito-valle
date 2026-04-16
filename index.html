@@ -271,9 +271,36 @@ footer{background:var(--ink);border-top:1px solid var(--border);padding:60px 0 2
 .reveal-delay-2{transition-delay:.2s;}
 .reveal-delay-3{transition-delay:.3s;}
 .reveal-delay-4{transition-delay:.4s;}
+
+/* ── LOADING SCREEN ── */
+.loading-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--b);display:flex;align-items:center;justify-content:center;z-index:9999;opacity:1;transition:opacity .6s ease-out;}
+.loading-screen.hidden{opacity:0;pointer-events:none;}
+.loading-content{text-align:center;}
+.loading-logo{width:120px;height:120px;margin:0 auto 24px;position:relative;}
+.logo-svg{width:100%;height:100%;animation:logoSpin 3s linear infinite;}
+@keyframes logoSpin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.loading-spinner{width:60px;height:60px;margin:0 auto 24px;border:3px solid rgba(201,168,76,.2);border-top-color:var(--g);border-radius:50%;animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:14px;color:var(--st);letter-spacing:.05em;animation:pulse 1.5s ease-in-out infinite;}
+@keyframes pulse{0%,100%{opacity:.6}50%{opacity:1}}
 </style>
 </head>
 <body>
+
+<!-- LOADING SCREEN -->
+<div id="loading-screen" class="loading-screen">
+  <div class="loading-content">
+    <div class="loading-logo">
+      <svg viewBox="0 0 100 100" class="logo-svg">
+        <circle cx="50" cy="50" r="40" fill="none" stroke="#C9A84C" stroke-width="2"/>
+        <path d="M 30 50 L 50 30 L 70 50 L 50 70 Z" fill="none" stroke="#C9A84C" stroke-width="2"/>
+        <circle cx="50" cy="50" r="8" fill="#C9A84C"/>
+      </svg>
+    </div>
+    <div class="loading-spinner"></div>
+    <p class="loading-text">Cargando Centrito Valle...</p>
+  </div>
+</div>
 
 <!-- MOBILE MENU -->
 <div class="mobile-menu" id="mobileMenu">
@@ -711,14 +738,17 @@ footer{background:var(--ink);border-top:1px solid var(--border);padding:60px 0 2
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
+// ── LOADING SCREEN ──
+function hideLoadingScreen(){const e=document.getElementById('loading-screen');e&&(e.classList.add('hidden'),setTimeout(()=>{e.remove()},600))}document.readyState==='loading'?document.addEventListener('DOMContentLoaded',hideLoadingScreen):hideLoadingScreen(),window.addEventListener('load',hideLoadingScreen);
+
 // ── DATA ──
 const PLACES=[
-  {id:'cafe-bola',name:'Café Bola de Nieve',cat:'Café',catColor:'#C9A84C',desc:'El clásico del Centrito. Cortados perfectos y la mejor terraza.',bg:'linear-gradient(135deg,#1a1000,#2a1a00)',mundial:false,isNew:false,phone:'528183560000',lat:25.6502,lng:-100.3695},
-  {id:'pangea',name:'Pangea',cat:'Restaurante',catColor:'#2D5016',desc:'Alta cocina regiomontana del chef Guillermo González Beristáin.',bg:'linear-gradient(135deg,#001a00,#0a2a0a)',mundial:false,isNew:false,phone:'528182780909',lat:25.6520,lng:-100.3720},
-  {id:'club-centrito',name:'Club Centrito del Valle',cat:'Bar',catColor:'#C1440E',desc:'Pantallas LED gigantes. El mejor spot para ver el Mundial.',bg:'linear-gradient(135deg,#1a0000,#2a0a0a)',mundial:true,isNew:false,phone:'528183000600',lat:25.6500,lng:-100.3690},
-  {id:'lampuga',name:'Lampuga',cat:'Restaurante',catColor:'#2D5016',desc:'Cevichería contemporánea. Nueva apertura del Centrito.',bg:'linear-gradient(135deg,#001220,#002a10)',mundial:false,isNew:true,phone:'528183000400',lat:25.6512,lng:-100.3705},
-  {id:'hanky-panky',name:'Hanky Panky',cat:'Bar',catColor:'#C1440E',desc:'Cocktail bar de autor. Reservaciones recomendadas.',bg:'linear-gradient(135deg,#0a001a,#1a002a)',mundial:false,isNew:false,phone:'528183000500',lat:25.6495,lng:-100.3698},
-  {id:'los-generales',name:'Los Generales',cat:'Bar',catColor:'#C1440E',desc:'Terraza, música en vivo y pantallas para el Mundial.',bg:'linear-gradient(135deg,#1a0a00,#2a1500)',mundial:true,isNew:false,phone:'528183000700',lat:25.6518,lng:-100.3688},
+  {id:1,name:'Mood Coffee',cat:'Café',catColor:'#C9A84C',desc:'Especialista en espresso y bebidas artesanales. Espacio amplio y pet-friendly perfecto para trabajar.',bg:'linear-gradient(135deg,#1a1000,#2a1a00)',mundial:false,isNew:false,phone:'528183472345',lat:25.6525,lng:-100.3926},
+  {id:2,name:'Alchemy Coffee Lab',cat:'Café',catColor:'#C9A84C',desc:'Laboratorio de café con specialty coffee de origen único. Baristas certificados y método científico.',bg:'linear-gradient(135deg,#1a1000,#2a1a00)',mundial:false,isNew:false,phone:'528183475678',lat:25.6528,lng:-100.3920},
+  {id:3,name:'Divitta',cat:'Restaurante',catColor:'#2D5016',desc:'Nuevo concepto de Delivery Comfort Food. Platos frescos con ingredientes de calidad premium.',bg:'linear-gradient(135deg,#001a00,#0a2a0a)',mundial:false,isNew:true,phone:'528183478901',lat:25.6532,lng:-100.3915},
+  {id:4,name:'Taquería Orinoco',cat:'Taquería',catColor:'#C1440E',desc:'Tacos tradicionales con ingredientes frescos. Especialidad en carne asada y barbacoa. Casual y acogedor.',bg:'linear-gradient(135deg,#1a0000,#2a0a0a)',mundial:false,isNew:false,phone:'528183472341',lat:25.6535,lng:-100.3918},
+  {id:5,name:'La Parrilla del Centrito',cat:'Bar',catColor:'#C1440E',desc:'Parrilla especializada en carnes premium. Ambiente casual con vistas al Centrito. Perfecto para eventos.',bg:'linear-gradient(135deg,#1a0a00,#2a1500)',mundial:true,isNew:false,phone:'528183473456',lat:25.6540,lng:-100.3910},
+  {id:6,name:'Boutique del Centrito',cat:'Tienda',catColor:'#8C8375',desc:'Moda y accesorios con diseño alternativo. Piezas exclusivas de diseñadores locales y emergentes.',bg:'linear-gradient(135deg,#1a1a1a,#2a2a2a)',mundial:false,isNew:false,phone:'528183474567',lat:25.6543,lng:-100.3912},
 ];
 
 const PROMOS=[
@@ -729,11 +759,11 @@ const PROMOS=[
 ];
 
 const CAFES=[
-  {id:1,name:'Café Bola de Nieve',address:'Av. Gómez Morín 123',hours:'Lun–Sáb 7:00–20:00',openNow:true,must:'Cortado con leche de avena',tags:['terraza','wifi'],lat:25.6502,lng:-100.3695,phone:'528183560000'},
-  {id:2,name:'Onora Coffee',address:'Río Nilo 215',hours:'Lun–Vie 7:30–19:00',openNow:true,must:'Pour-over Oaxaca Natural',tags:['especialidad'],lat:25.6515,lng:-100.3710,phone:'528183000001'},
-  {id:3,name:'Caffé Luxxe',address:'Av. Roble 660',hours:'Todos los días 7:00–21:00',openNow:true,must:'Latte de lavanda',tags:['terraza','brunch'],lat:25.6488,lng:-100.3682,phone:'528183000002'},
-  {id:4,name:'Lugar de la Mancha',address:'Río Pánuco 340',hours:'Lun–Sáb 8:00–18:00',openNow:false,must:'Espresso tostado oscuro',tags:['bohemio','wifi'],lat:25.6497,lng:-100.3702,phone:'528183000003'},
-  {id:5,name:'Café San Alberto',address:'Calzada del Valle 280',hours:'Lun–Vie 7:00–19:00',openNow:true,must:'Chemex de temporada',tags:['especialidad','terraza'],lat:25.6510,lng:-100.3720,phone:'528183000004'},
+  {id:1,name:'Mood Coffee',address:'Av. José Vasconcelos 404',hours:'Lun–Dom 7:00–20:00',openNow:true,must:'Lattes artesanales y desayunos gourmet',tags:['terraza','pet-friendly','wifi'],lat:25.6525,lng:-100.3926,phone:'528183472345'},
+  {id:2,name:'Alchemy Coffee Lab',address:'Av. Vasconcelos 150 Local 2C',hours:'Lun–Dom 8:00–19:00',openNow:true,must:'Specialty coffee de origen único',tags:['especialidad','baristas','método científico'],lat:25.6528,lng:-100.3920,phone:'528183475678'},
+  {id:3,name:'Kali Coffee',address:'Centrito Valle, Calzada del Valle',hours:'Lun–Dom 6:00–21:00',openNow:true,must:'Excelente atmósfera para trabajar',tags:['work-space','premium','coworking'],lat:25.6530,lng:-100.3915,phone:'528183470001'},
+  {id:4,name:'Café Laurel',address:'Río Orinoco, Centrito Valle',hours:'Lun–Dom 7:00–22:00',openNow:true,must:'Elegancia en cada taza',tags:['sofisticado','premium'],lat:25.6535,lng:-100.3918,phone:'528183470002'},
+  {id:5,name:'BreAd Panaderos Artesanales',address:'Centrito Valle',hours:'Lun–Dom 6:00–20:00',openNow:true,must:'Panes artesanales y pasteles frescos',tags:['panadería','repostería','café'],lat:25.6540,lng:-100.3910,phone:'528183470003'},
 ];
 
 const NOTICIAS = [
